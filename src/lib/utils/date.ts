@@ -60,7 +60,7 @@ export function getRelativeDateLabel(date: string | Date): string {
  * Calculate days remaining until a target date.
  */
 export function getDaysRemaining(targetDate: string | Date): number {
-  const d = typeof targetDate === 'string' ? parseISO(targetDate) : date;
+  const d = typeof targetDate === 'string' ? parseISO(targetDate) : targetDate;
   return Math.max(0, differenceInDays(d, new Date()));
 }
 
