@@ -120,6 +120,7 @@ export function useTodos() {
     const db = getDatabase();
     await db.todos.put({
       ...newTodo,
+      recurConfig: newTodo.recurConfig as Record<string, unknown> | null,
       _synced: false,
       _modifiedAt: Date.now(),
     });
