@@ -1,0 +1,311 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   THEME SYSTEM
+   Three themes: light (default), dark, green
+   Controlled by data-theme attribute on <html>
+   ============================================ */
+
+/* ---- Light Theme (Default / White Daily Mode) ---- */
+:root,
+[data-theme="light"] {
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fafc;
+  --color-surface-hover: #f1f5f9;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-accent: #6366f1;
+  --color-accent-hover: #4f46e5;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Glass effect */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-blur: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+
+  /* Background gradient */
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+
+  /* Scrollbar */
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-track: transparent;
+}
+
+/* ---- Dark Theme (Night Mode) ---- */
+[data-theme="dark"] {
+  --color-surface: #0f172a;
+  --color-surface-alt: #1e293b;
+  --color-surface-hover: #334155;
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-border: #334155;
+  --color-accent: #818cf8;
+  --color-accent-hover: #6366f1;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-info: #60a5fa;
+
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(51, 65, 85, 0.3);
+  --glass-blur: 12px;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+
+  --scrollbar-thumb: #475569;
+  --scrollbar-track: transparent;
+}
+
+/* ---- Green Theme (Eye Care Mode) ---- */
+[data-theme="green"] {
+  --color-surface: #f0f7e8;
+  --color-surface-alt: #e3f0d3;
+  --color-surface-hover: #d4e8bf;
+  --color-text-primary: #2d3a1f;
+  --color-text-secondary: #5c6b4a;
+  --color-text-muted: #8a9a7a;
+  --color-border: #c5d8a8;
+  --color-accent: #4d7c3b;
+  --color-accent-hover: #3d632f;
+  --color-success: #3d8b37;
+  --color-warning: #b8952e;
+  --color-danger: #c53030;
+  --color-info: #3a6fb5;
+
+  --glass-bg: rgba(240, 247, 232, 0.7);
+  --glass-border: rgba(197, 216, 168, 0.3);
+  --glass-blur: 12px;
+
+  --shadow-sm: 0 1px 2px 0 rgb(45 58 31 / 0.08);
+  --shadow-md: 0 4px 6px -1px rgb(45 58 31 / 0.12);
+  --shadow-lg: 0 10px 15px -3px rgb(45 58 31 / 0.15);
+
+  --bg-gradient: linear-gradient(135deg, #f0f7e8 0%, #e8f0db 50%, #edf5e2 100%);
+
+  --scrollbar-thumb: #b5c99a;
+  --scrollbar-track: transparent;
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--bg-gradient);
+    color: var(--color-text-primary);
+    font-family: 'Inter', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', system-ui, sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: var(--color-accent);
+    color: #ffffff;
+  }
+}
+
+@layer components {
+  /* Glass morphism card */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  /* Module card with accent border */
+  .module-card {
+    @apply glass-card;
+    border-left: 3px solid var(--module-accent, var(--color-accent));
+  }
+
+  /* Gradient buttons */
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg font-medium text-white transition-all duration-200;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Module-specific tag/badge */
+  .module-tag {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    background: var(--module-accent, var(--color-accent));
+    color: white;
+    opacity: 0.9;
+  }
+
+  /* Section headings */
+  .section-title {
+    @apply text-lg font-semibold mb-4 flex items-center gap-2;
+    color: var(--color-text-primary);
+  }
+
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    border-radius: 2px;
+    background: var(--module-accent, var(--color-accent));
+  }
+
+  /* Input styles */
+  .input-field {
+    @apply w-full px-3 py-2 rounded-lg border transition-colors duration-200;
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+  }
+
+  .input-field:focus {
+    @apply outline-none ring-2;
+    border-color: transparent;
+    ring-color: var(--color-accent);
+  }
+
+  .input-field::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  /* Checkbox custom */
+  .checkbox-custom {
+    @apply w-5 h-5 rounded border-2 transition-all duration-200 cursor-pointer;
+    border-color: var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .checkbox-custom:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply rounded animate-pulse;
+    background: var(--color-surface-hover);
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply absolute z-50 px-2 py-1 text-xs rounded;
+    background: var(--color-text-primary);
+    color: var(--color-surface);
+  }
+
+  /* Navbar active tab indicator */
+  .nav-tab {
+    @apply relative px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer;
+    color: var(--color-text-secondary);
+  }
+
+  .nav-tab:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+
+  .nav-tab.active {
+    color: var(--module-accent, var(--color-accent));
+    background: color-mix(in srgb, var(--module-accent, var(--color-accent)) 10%, transparent);
+  }
+
+  .nav-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    border-radius: 1.5px;
+    background: var(--module-accent, var(--color-accent));
+  }
+}
+
+@layer utilities {
+  /* Text balance for better typography */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
