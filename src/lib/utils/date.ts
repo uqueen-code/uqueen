@@ -1,6 +1,5 @@
 import {
   format,
-  formatDistanceToNow,
   differenceInDays,
   isToday,
   isTomorrow,
@@ -9,6 +8,7 @@ import {
   startOfDay,
   endOfDay,
 } from 'date-fns';
+import type { Locale } from 'date-fns';
 import { zhCN, zhTW, fr, de, it, es, ja, ko } from 'date-fns/locale';
 
 /**
