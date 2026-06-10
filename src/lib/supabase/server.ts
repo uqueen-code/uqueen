@@ -7,14 +7,15 @@ import { isSupabaseConfigured } from './config';
  * Supabase server client — used in Server Components and Route Handlers.
  * Returns null if Supabase is not configured.
  */
-export async function createServerSupabaseClient() {
-  if (!isSupabaseConfigured()) return null;
+const PLACEHOLDER_URL = 'https://placeholder.supabase.co';
+const PLACEHOLDER_KEY = 'placeholder';
 
+export async function createServerSupabaseClient() {
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    isSupabaseConfigured() ? process.env.NEXT_PUBLIC_SUPABASE_URL! : PLACEHOLDER_URL,
+    isSupabaseConfigured() ? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! : PLACEHOLDER_KEY,
     {
       cookies: {
         getAll() {

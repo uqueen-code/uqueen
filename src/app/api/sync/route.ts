@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
   }
   try {
     const supabase = await createServerSupabaseClient();
-    if (!supabase) return NextResponse.json({ results: [], offline: true });
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -24,9 +23,9 @@ export async function POST(request: NextRequest) {
       try {
         const tableName = tableMap[op.table] ?? op.table;
         switch (op.operation) {
-          case 'insert': await supabase.from(tableName).upsert({ ...op.data, user_id: user.id, id: op.recordId }, { onConflict: 'id' }); break;
-          case 'update': { const u = { ...op.data }; delete (u as any).id; await supabase.from(tableName).update(u).eq('id', op.recordId).eq('user_id', user.id); break; }
-          case 'delete': await supabase.from(tableName).delete().eq('id', op.recordId).eq('user_id', user.id); break;
+          case 'insert': await (supabase.from(tableName) as any).upsert({ ...op.data, user_id: user.id, id: op.recordId }, { onConflict: 'id' }); break;
+          case 'update': { const u = { ...op.data }; delete (u as any).id; await (supabase.from(tableName) as any).update(u).eq('id', op.recordId).eq('user_id', user.id); break; }
+          case 'delete': await (supabase.from(tableName) as any).delete().eq('id', op.recordId).eq('user_id', user.id); break;
         }
         results.push({ table: op.table, operation: op.operation, recordId: op.recordId, success: true });
       } catch (err) {

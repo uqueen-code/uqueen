@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = await createServerSupabaseClient();
-    if (!supabase) return NextResponse.json({ data: [], offline: true });
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -56,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { data, error } = await supabase.from('todos').insert({
+    const { data, error } = await (supabase.from('todos') as any).insert({
       user_id: user.id, title: body.title, description: body.description,
       category: body.category, priority: body.priority ?? 'normal',
       is_recurring: body.isRecurring ?? false, recur_type: body.recurType,

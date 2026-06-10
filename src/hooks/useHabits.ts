@@ -115,7 +115,7 @@ export function useHabits() {
     if (effectiveOnline) {
       try {
         const supabase = getSupabaseBrowserClient();
-        await supabase.from('habit_logs').upsert({
+        await (supabase.from('habit_logs') as any).upsert({
           user_id: userId,
           date: today,
           category,

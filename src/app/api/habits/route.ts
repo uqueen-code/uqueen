@@ -6,7 +6,6 @@ export async function GET(request: NextRequest) {
   if (!isSupabaseConfigured()) return NextResponse.json({ data: [], offline: true });
   try {
     const supabase = await createServerSupabaseClient();
-    if (!supabase) return NextResponse.json({ data: [], offline: true });
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -34,7 +33,7 @@ export async function POST(request: NextRequest) {
     if (authError || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await request.json();
-    const { data, error } = await supabase.from('habit_logs').upsert({
+    const { data, error } = await (supabase.from('habit_logs') as any).upsert({
       user_id: user.id, date: body.date, category: body.category,
       completed: body.completed ?? true, notes: body.notes,
     }, { onConflict: 'user_id,date,category' }).select().single();

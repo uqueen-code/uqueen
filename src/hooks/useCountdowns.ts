@@ -6,6 +6,7 @@ import { useOfflineStore } from '@/stores/offlineStore';
 import { getDatabase } from '@/lib/db/indexeddb';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { differenceInDays, parseISO } from 'date-fns';
+import { RecurType } from '@/types/enums';
 import type { Countdown } from '@/types/models';
 
 const PLACEHOLDER_USER_ID = 'local-user';
@@ -64,7 +65,7 @@ export function useCountdowns() {
       title: data.title,
       targetDate: data.targetDate,
       isRecurring: data.isRecurring ?? false,
-      recurType: data.recurType ?? null,
+      recurType: (data.recurType as RecurType) ?? null,
       color: data.color ?? '#6366f1',
       daysRemaining: Math.max(0, differenceInDays(parseISO(data.targetDate), now)),
       createdAt: new Date().toISOString(),
@@ -78,7 +79,7 @@ export function useCountdowns() {
     if (effectiveOnline) {
       try {
         const supabase = getSupabaseBrowserClient();
-        await supabase.from('countdowns').insert({ id, user_id: userId, title: cd.title, target_date: cd.targetDate, is_recurring: cd.isRecurring, recur_type: cd.recurType, color: cd.color });
+        await (supabase.from('countdowns') as any).insert({ id, user_id: userId, title: cd.title, target_date: cd.targetDate, is_recurring: cd.isRecurring, recur_type: cd.recurType, color: cd.color });
         await db.countdowns.update(id, { _synced: true });
       } catch { /* sync later */ }
     }

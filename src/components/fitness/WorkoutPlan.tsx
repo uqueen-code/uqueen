@@ -7,7 +7,7 @@ import type { FitnessPlan } from '@/types/models';
 
 interface WorkoutPlanProps {
   plan: FitnessPlan;
-  onAccept: (planId: string) => Promise<FitnessPlan | null>;
+  onAccept: (planId: string) => Promise<FitnessPlan | null | undefined>;
 }
 
 export function WorkoutPlan({ plan, onAccept }: WorkoutPlanProps) {

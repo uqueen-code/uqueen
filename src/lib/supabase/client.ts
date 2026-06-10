@@ -2,29 +2,38 @@
 
 import { createBrowserClient } from '@supabase/ssr';
 import type { Database } from '@/types/database';
-import { isSupabaseConfigured } from './config';
+
+const PLACEHOLDER_URL = 'https://placeholder.supabase.co';
+const PLACEHOLDER_KEY = 'placeholder';
 
 /**
- * Supabase browser client — used in Client Components.
- * Returns null if Supabase is not configured (graceful offline mode).
+ * Check if real Supabase credentials are configured.
  */
-export function createClient() {
-  if (!isSupabaseConfigured()) return null;
+export function isSupabaseConfigured(): boolean {
+  return !!(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://your-project-id.supabase.co' &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== 'your-anon-key-here'
+  );
+}
 
+function createClient() {
   return createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    isSupabaseConfigured() ? process.env.NEXT_PUBLIC_SUPABASE_URL! : PLACEHOLDER_URL,
+    isSupabaseConfigured() ? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! : PLACEHOLDER_KEY
   );
 }
 
 /**
- * Singleton browser client instance.
- * Returns null when Supabase is not configured → app works fully offline.
+ * Always returns a client instance (with placeholders if not configured).
+ * Actual API calls fail gracefully via try/catch in hooks.
+ * Use isSupabaseConfigured() to check before making calls.
  */
-let _browserClient: ReturnType<typeof createClient> | null = undefined as unknown as null;
+let _browserClient: ReturnType<typeof createClient> | null = null;
 
 export function getSupabaseBrowserClient() {
-  if (_browserClient === undefined) {
+  if (!_browserClient) {
     _browserClient = createClient();
   }
   return _browserClient;

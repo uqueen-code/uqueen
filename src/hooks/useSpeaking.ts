@@ -34,7 +34,7 @@ const PICTURE_TOPICS: Record<string, string[]> = {
   '韩语': ['서울의 야경', '전통 시장의 풍경', '한강에서의 피크닉', '봄의 벚꽃 축제'],
 };
 
-const CONNECTED_SPEECH: Record<string, string[]> = [
+const CONNECTED_SPEECH: string[] = [
   'What are you going to do? → Whacha gonna do?',
   'I want to go → I wanna go',
   'Did you eat yet? → Jeet yet?',
@@ -96,12 +96,12 @@ export function useSpeaking() {
       setLanguages(allLangs);
 
       // Generate materials if not exist for today
-      if (mats.length === 0) {
+      if ((mats as any[]).length === 0) {
         const genMats = generateDailyMaterials(today, dayIdx);
-        await db.speakingMaterials.bulkPut(genMats);
+        await db.speakingMaterials.bulkPut(genMats as any);
         setMaterials(genMats);
       } else {
-        setMaterials(mats);
+        setMaterials(mats as unknown as SpeakingMaterial[]);
       }
 
       setLogs(lgs.map(l => ({
@@ -169,8 +169,8 @@ export function useSpeaking() {
 }
 
 // Generate daily materials for all languages × modules
-function generateDailyMaterials(date: string, dayIdx: number): import('@/lib/db/indexeddb').OfflineSpeakingMaterial[] {
-  const mats: import('@/lib/db/indexeddb').OfflineSpeakingMaterial[] = [];
+function generateDailyMaterials(date: string, dayIdx: number): SpeakingMaterial[] {
+  const mats: SpeakingMaterial[] = [];
 
   SPEAKING_LANGUAGES.forEach(lang => {
     // Shadowing

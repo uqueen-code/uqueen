@@ -194,7 +194,7 @@ export function HeatmapCalendar({
                 background: intensity > 0
                   ? getHeatmapColor(dominantColor ?? 'dashboard', intensity)
                   : 'var(--color-surface-hover)',
-                ringColor: isCurrentDay ? 'var(--color-accent)' : 'transparent',
+                ...(isCurrentDay ? { boxShadow: '0 0 0 2px var(--color-accent)' } : {}),
               }}
             >
               <span

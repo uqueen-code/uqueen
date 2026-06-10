@@ -85,7 +85,7 @@ export function useGoals() {
     if (effectiveOnline) {
       try {
         const supabase = getSupabaseBrowserClient();
-        await supabase.from('goals').insert({ id, user_id: userId, title: goal.title, description: goal.description, type: goal.type, year: goal.year, deadline: goal.deadline, progress: 0 });
+        await (supabase.from('goals') as any).insert({ id, user_id: userId, title: goal.title, description: goal.description, type: goal.type, year: goal.year, deadline: goal.deadline, progress: 0 });
         await db.goals.update(id, { _synced: true });
       } catch { /* sync later */ }
     }

@@ -136,7 +136,7 @@ export function useTodos() {
     if (effectiveOnline) {
       try {
         const supabase = getSupabaseBrowserClient();
-        await supabase.from('todos').insert({
+        await (supabase.from('todos') as any).insert({
           id: newTodo.id,
           user_id: userId,
           title: newTodo.title,
@@ -197,7 +197,7 @@ export function useTodos() {
     if (effectiveOnline) {
       try {
         const supabase = getSupabaseBrowserClient();
-        await supabase.from('todos').update({
+        await (supabase.from('todos') as any).update({
           is_completed: updated.isCompleted,
           completed_at: updated.completedAt,
         }).eq('id', id);

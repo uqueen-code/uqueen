@@ -101,8 +101,15 @@ export default function DashboardPage() {
 
   // ---- Handlers ----
 
-  const handleCreateTodo = useCallback(async (data: Parameters<typeof createTodo>[0]) => {
-    await createTodo(data);
+  const handleCreateTodo = useCallback(async (data: { title: string; description?: string; category?: string; priority: Priority; isRecurring: boolean; recurType: RecurType | null; recurConfig?: { lunarMonth?: number; lunarDay?: number; monthDay?: number }; dueDate?: string; dueTime?: string; isBirthdayReminder: boolean; birthdayPerson?: string; birthdayIsLunar: boolean }) => {
+    await createTodo({
+      title: data.title, description: data.description, category: data.category,
+      priority: data.priority, isRecurring: data.isRecurring,
+      recurType: data.recurType ?? undefined, recurConfig: data.recurConfig,
+      dueDate: data.dueDate, dueTime: data.dueTime,
+      isBirthdayReminder: data.isBirthdayReminder, birthdayPerson: data.birthdayPerson,
+      birthdayIsLunar: data.birthdayIsLunar,
+    });
   }, [createTodo]);
 
   const handleCreateGoal = useCallback(async () => {

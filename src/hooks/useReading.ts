@@ -10,7 +10,6 @@ import type { ReadingLog, DailyBookRecommendation } from '@/types/models';
 
 const PLACEHOLDER_USER_ID = 'local-user';
 
-// Curated book recommendations — literature classics only
 const CURATED_BOOKS: Omit<DailyBookRecommendation, 'id' | 'date'>[] = [
   { title: '百年孤独', author: '加西亚·马尔克斯', summary: '魔幻现实主义的巅峰之作，讲述布恩迪亚家族七代人的传奇故事，折射拉美一个世纪的风云变幻。', coverUrl: null, category: '文学' },
   { title: '活着', author: '余华', summary: '一部浓缩的中国现代史，通过一个普通人的悲欢离合，展现生命的坚韧与尊严。', coverUrl: null, category: '文学' },
@@ -28,9 +27,6 @@ const CURATED_BOOKS: Omit<DailyBookRecommendation, 'id' | 'date'>[] = [
   { title: '卡拉马佐夫兄弟', author: '陀思妥耶夫斯基', summary: '关于信仰、理性与自由意志的深刻探讨，世界文学的最高成就之一。', coverUrl: null, category: '文学' },
 ];
 
-/**
- * Hook for reading logs and daily book recommendations.
- */
 export function useReading() {
   const [readingLogs, setReadingLogs] = useState<ReadingLog[]>([]);
   const [dailyBook, setDailyBook] = useState<DailyBookRecommendation | null>(null);
@@ -53,18 +49,15 @@ export function useReading() {
         db.readingLogs.where('userId').equals(userId).reverse().limit(30).toArray(),
         db.bookRecommendations.where('date').equals(today).first(),
       ]);
-
       setReadingLogs(logs.map(l => ({
         id: l.id, userId: l.userId, date: l.date, bookTitle: l.bookTitle,
         author: l.author, chapter: l.chapter, pagesRead: l.pagesRead,
         notes: l.notes, isDailyRecommendation: l.isDailyRecommendation,
         createdAt: l.createdAt,
       })));
-
       if (books) {
         setDailyBook({ id: books.id, date: books.date, title: books.title, author: books.author, summary: books.summary, coverUrl: books.coverUrl, category: books.category });
       } else {
-        // Auto-generate daily recommendation deterministically
         const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
         const book = CURATED_BOOKS[dayOfYear % CURATED_BOOKS.length]!;
         const rec: DailyBookRecommendation = { id: `rec_${today}`, date: today, ...book };
@@ -77,7 +70,6 @@ export function useReading() {
 
   useEffect(() => { loadData(); }, [loadData]);
 
-  // Log a reading session
   const logReading = useCallback(async (data: {
     bookTitle: string; author?: string; chapter?: string;
     pagesRead?: number; notes?: string;
@@ -90,15 +82,13 @@ export function useReading() {
       isDailyRecommendation: dailyBook?.title === data.bookTitle,
       createdAt: new Date().toISOString(),
     };
-
     const db = getDatabase();
     await db.readingLogs.put({ ...log, _synced: false, _modifiedAt: Date.now() });
     addToSyncQueue({ table: 'reading_logs', operation: 'insert', recordId: id, data: log as unknown as Record<string, unknown> });
-
     if (effectiveOnline) {
       try {
         const supabase = getSupabaseBrowserClient();
-        await supabase.from('reading_logs').insert({
+        await (supabase.from('reading_logs') as any).insert({
           id, user_id: userId, date: today, book_title: data.bookTitle,
           author: data.author, chapter: data.chapter, pages_read: data.pagesRead,
           notes: data.notes, is_daily_recommendation: dailyBook?.title === data.bookTitle,
@@ -106,12 +96,10 @@ export function useReading() {
         await db.readingLogs.update(id, { _synced: true });
       } catch { /* sync later */ }
     }
-
     setReadingLogs(prev => [log, ...prev]);
     return log;
   }, [userId, today, dailyBook, effectiveOnline, addToSyncQueue]);
 
-  // Check if user read today
   const didReadToday = readingLogs.some(l => l.date === today);
   const todayLogs = readingLogs.filter(l => l.date === today);
 
