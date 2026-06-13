@@ -85,10 +85,11 @@ export function Navbar() {
 
   return (
     <nav
-      className="sticky top-0 z-50 border-b backdrop-blur-xl w-full overflow-hidden"
+      className="sticky top-0 z-[100] border-b backdrop-blur-xl w-full overflow-hidden"
       style={{
         background: 'var(--glass-bg)',
         borderColor: 'var(--color-border)',
+        touchAction: 'manipulation',
       }}
     >
       <div className="w-full px-4 md:px-6">
