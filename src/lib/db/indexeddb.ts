@@ -217,6 +217,12 @@ export interface OfflineBusinessTransaction {
   _synced: boolean; _modifiedAt: number;
 }
 
+export interface OfflineMindMapNode {
+  id: string; userId: string; category: string;
+  parentId: string | null; title: string; color: string; sortOrder: number;
+  _synced: boolean; _modifiedAt: number;
+}
+
 /**
  * AppDatabase — manages all IndexedDB tables.
  */
@@ -250,12 +256,13 @@ export class AppDatabase extends Dexie {
   businessIdeas!: Table<OfflineBusinessIdea, string>;
   businessProjects!: Table<OfflineBusinessProject, string>;
   businessTransactions!: Table<OfflineBusinessTransaction, string>;
+  mindMapNodes!: Table<OfflineMindMapNode, string>;
   syncQueue!: Table<SyncQueueItem, number>;
 
   constructor() {
     super('PersonalGrowthDB');
 
-    this.version(5).stores({
+    this.version(6).stores({
       todos: 'id, userId, category, dueDate, isCompleted, _synced',
       habitLogs: 'id, userId, date, category, _synced',
       goals: 'id, userId, type, deadline, _synced',
@@ -285,6 +292,7 @@ export class AppDatabase extends Dexie {
       businessIdeas: 'id, userId, status, _synced',
       businessProjects: 'id, userId, category, stage, _synced',
       businessTransactions: 'id, userId, date, type, _synced',
+      mindMapNodes: 'id, userId, category, parentId, _synced',
       syncQueue: '++id, table, operation, timestamp',
     });
   }

@@ -85,13 +85,13 @@ export function Navbar() {
 
   return (
     <nav
-      className="sticky top-0 z-50 border-b backdrop-blur-xl"
+      className="sticky top-0 z-50 border-b backdrop-blur-xl w-full overflow-hidden"
       style={{
         background: 'var(--glass-bg)',
         borderColor: 'var(--color-border)',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="w-full px-4 md:px-6">
         <div className="flex items-center justify-between h-14">
           {/* Logo + Brand */}
           <div className="flex items-center gap-3">
@@ -110,8 +110,8 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Desktop Navigation Tabs */}
-          <div className="hidden lg:flex items-center gap-1">
+          {/* Desktop Navigation Tabs — scrollable on overflow */}
+          <div className="hidden lg:flex items-center gap-1 overflow-x-auto scrollbar-hide flex-shrink-1 min-w-0 mx-2">
             {NAV_TABS.map((tab) => {
               const isActive = activeModule === tab.module;
               const color = getModuleColor(tab.module);
@@ -139,7 +139,7 @@ export function Navbar() {
           </div>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
             {/* Offline Toggle */}
             <button
               onClick={() => setOfflineModeEnabled(!offlineModeEnabled)}
