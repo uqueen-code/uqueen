@@ -96,40 +96,6 @@ export function SettingsPanel() {
         </div>
 
         <div className="p-6 space-y-8">
-          {/* Language */}
-          <section>
-            <h3 className="flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>
-              <Globe className="h-4 w-4" style={{ color: 'var(--color-accent)' }} />
-              {t('settings.language')}
-            </h3>
-            <div className="grid grid-cols-3 gap-2">
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setLanguage(lang)}
-                  className={cn(
-                    'px-3 py-2 rounded-lg text-sm transition-all',
-                    language === lang
-                      ? 'font-medium text-white'
-                      : ''
-                  )}
-                  style={{
-                    background:
-                      language === lang
-                        ? 'var(--color-accent)'
-                        : 'var(--color-surface-hover)',
-                    color:
-                      language === lang
-                        ? '#ffffff'
-                        : 'var(--color-text-secondary)',
-                  }}
-                >
-                  {LANGUAGE_NAMES[lang]}
-                </button>
-              ))}
-            </div>
-          </section>
-
           {/* Theme */}
           <section>
             <h3 className="flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>

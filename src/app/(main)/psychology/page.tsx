@@ -3,9 +3,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Brain, Star, Sparkles, Smile, Heart, Send, Zap, Trash2 } from 'lucide-react';
 import { usePsychology } from '@/hooks/usePsychology';
-import { useTodos } from '@/hooks/useTodos';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { ModuleCategory, Priority } from '@/types/enums';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getDatabase } from '@/lib/db/indexeddb';
 import { useAuthStore } from '@/stores/authStore';
@@ -40,13 +38,13 @@ function KabishouMonster({monsterName,onFeed,isFeeding}:{monsterName:string;onFe
 
 export default function PsychologyPage(){
   const{t}=useTranslation();
-  const {todayMood,todayEmotions,recentMoods,psychTip,monsterName,isLoading,logMood,feedEmotion}=usePsychology();const{createTodo}=useTodos();
+  const {todayMood,todayEmotions,recentMoods,psychTip,monsterName,isLoading,logMood,feedEmotion}=usePsychology();
   const user=useAuthStore(s=>s.user);const addSync=useOfflineStore(s=>s.addToSyncQueue);
   const[mr,setMr]=useState(todayMood?.rating??0);const[mn,setMn]=useState('');const[isSub,setIsSub]=useState(false);const[isFeed,setIsFeed]=useState(false);const[el,setEl]=useState(todayEmotions);
   useEffect(()=>{if(todayMood){setMr(todayMood.rating);setMn(todayMood.note||'');}},[]); // stable — only on mount
   useEffect(()=>{setEl(todayEmotions);},[todayEmotions]);
 
-  const handleSave=useCallback(async()=>{if(mr===0){toast.error(t('psychology.rateFirst'));return;}setIsSub(true);await logMood(mr,mn||undefined);const ls:Record<number,string>={0.5:'非常糟糕',1:'很不好',1.5:'不太好',2:'有点低落',2.5:'一般般',3:'普普通通',3.5:'还不错',4:'挺好的',4.5:'很开心',5:'超级棒'};await createTodo({title:`😊 ${t('psychology.todayMood')}：${ls[Math.round(mr*2)/2]||mr+''}`,description:mn||undefined,category:ModuleCategory.PSYCHOLOGY,priority:Priority.NORMAL,dueDate:new Date().toISOString().split('T')[0]!,isRecurring:false});toast.success(t('psychology.moodSavedToast'));setIsSub(false);},[mr,mn,logMood,createTodo,t]);
+  const handleSave=useCallback(async()=>{if(mr===0){toast.error(t('psychology.rateFirst'));return;}setIsSub(true);await logMood(mr,mn||undefined);toast.success(t('psychology.moodSavedToast'));setIsSub(false);},[mr,mn,logMood,t]);
   const handleFeed=useCallback(async(text:string)=>{setIsFeed(true);await feedEmotion(text);toast.success(t('psychology.emotionEatenToast'),{duration:2000});setIsFeed(false);},[feedEmotion,t]);
   const handleClear=useCallback(async()=>{if(todayEmotions.length===0){toast.error(t('psychology.noEmotions'));return;}if(!window.confirm(t('psychology.clearConfirm')))return;const db=getDatabase();for(const e of todayEmotions){await db.emotionEntries.delete(e.id);addSync({table:'emotion_entries',operation:'delete',recordId:e.id,data:{}});}setEl([]);toast.success(t('psychology.clearSuccess'),{duration:2500});},[todayEmotions,addSync,t]);
 
