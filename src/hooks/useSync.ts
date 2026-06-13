@@ -41,6 +41,8 @@ export function useSync() {
         speaking_languages: 'speaking_languages', speaking_logs: 'speaking_logs',
         illness_logs: 'illness_logs', menstrual_logs: 'menstrual_logs',
         portfolio_items: 'portfolio_items',
+        mood_logs: 'mood_logs', emotion_entries: 'emotion_entries',
+        travel_cities: 'travel_cities',
       };
       for (const item of syncQueue) {
         try {
@@ -102,6 +104,9 @@ export function useSync() {
         { table: 'illness_logs', dexieTable: 'illnessLogs' },
         { table: 'menstrual_logs', dexieTable: 'menstrualLogs' },
         { table: 'portfolio_items', dexieTable: 'portfolioItems' },
+        { table: 'mood_logs', dexieTable: 'moodLogs' },
+        { table: 'emotion_entries', dexieTable: 'emotionEntries' },
+        { table: 'travel_cities', dexieTable: 'travelCities' },
       ];
       for (const { table, dexieTable } of tableMap) {
         try {

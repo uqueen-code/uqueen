@@ -449,3 +449,60 @@ CREATE TRIGGER trg_portfolio_items_updated_at BEFORE UPDATE ON public.portfolio_
 DROP TRIGGER IF EXISTS trg_learning_plans_updated_at ON public.learning_plans;
 CREATE TRIGGER trg_learning_plans_updated_at BEFORE UPDATE ON public.learning_plans
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at();
+
+-- ============================================
+-- 24. MOOD LOGS (psychology — daily mood rating)
+-- ============================================
+CREATE TABLE IF NOT EXISTS public.mood_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  rating DECIMAL(3,1) NOT NULL CHECK (rating >= 0 AND rating <= 5),
+  note TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, date)
+);
+
+CREATE INDEX idx_mood_logs_user_date ON public.mood_logs(user_id, date);
+
+ALTER TABLE public.mood_logs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users can CRUD own mood_logs" ON public.mood_logs FOR ALL USING (auth.uid() = user_id);
+
+-- ============================================
+-- 25. EMOTION ENTRIES (psychology — monster feeding)
+-- ============================================
+CREATE TABLE IF NOT EXISTS public.emotion_entries (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  emotion TEXT NOT NULL,
+  eaten BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_emotion_entries_user_date ON public.emotion_entries(user_id, date);
+
+ALTER TABLE public.emotion_entries ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users can CRUD own emotion_entries" ON public.emotion_entries FOR ALL USING (auth.uid() = user_id);
+
+-- ============================================
+-- 26. TRAVEL CITIES (travel — visited cities footprint)
+-- ============================================
+CREATE TABLE IF NOT EXISTS public.travel_cities (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  city TEXT NOT NULL,
+  country TEXT NOT NULL,
+  lat REAL NOT NULL,
+  lng REAL NOT NULL,
+  visit_date DATE,
+  feeling TEXT,
+  is_visited BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_travel_cities_user ON public.travel_cities(user_id);
+CREATE INDEX idx_travel_cities_country ON public.travel_cities(country);
+
+ALTER TABLE public.travel_cities ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users can CRUD own travel_cities" ON public.travel_cities FOR ALL USING (auth.uid() = user_id);

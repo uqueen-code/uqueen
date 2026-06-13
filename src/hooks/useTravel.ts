@@ -227,10 +227,30 @@ export function useTravel() {
     }
   }, [cities, userId]);
 
+  // Update an already-visited city's visitDate and feeling
+  const updateCityVisit = useCallback(async (cityId: string, visitDate?: string, feeling?: string) => {
+    const db = getDatabase();
+    await db.travelCities.update(cityId, {
+      visitDate: visitDate || null, feeling: feeling || null,
+      _synced: false, _modifiedAt: Date.now(),
+    });
+    setCities(prev => prev.map(c => c.id === cityId
+      ? { ...c, visitDate: visitDate || null, feeling: feeling || null }
+      : c));
+    // Add to sync queue
+    const existing = cities.find(c => c.id === cityId);
+    if (existing) {
+      addToSyncQueue({
+        table: 'travel_cities', operation: 'update', recordId: cityId,
+        data: { visit_date: visitDate || null, feeling: feeling || null } as unknown as Record<string, unknown>,
+      });
+    }
+  }, [cities, addToSyncQueue]);
+
   const visitedCities = cities.filter(c => c.isVisited);
 
   return {
     cities, visitedCities, showVisited, dailyRecommendation, countryKnowledge,
-    isLoading, setShowVisited, toggleCity, refresh: loadData,
+    isLoading, setShowVisited, toggleCity, updateCityVisit, refresh: loadData,
   };
 }

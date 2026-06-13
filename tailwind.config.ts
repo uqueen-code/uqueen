@@ -90,6 +90,13 @@ const config: Config = {
         'slide-down': 'slideDown 0.3s ease-out',
         'pulse-soft': 'pulseSoft 2s infinite',
         'bounce-in': 'bounceIn 0.5s ease-out',
+        'float': 'float 3s ease-in-out infinite',
+        'breathe': 'breathe 4s ease-in-out infinite',
+        'belch': 'belch 0.6s ease-out',
+        'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+        'sparkle': 'sparkle 1.5s ease-in-out infinite',
+        'float-up': 'floatUp 3s ease-out forwards',
+        'wiggle': 'wiggle 0.5s ease-in-out',
       },
       keyframes: {
         fadeIn: {
@@ -112,6 +119,39 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'scale(0.9)' },
           '50%': { transform: 'scale(1.02)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.03)' },
+        },
+        belch: {
+          '0%': { transform: 'scale(1)' },
+          '20%': { transform: 'scale(1.15)' },
+          '40%': { transform: 'scale(0.95)' },
+          '60%': { transform: 'scale(1.08)' },
+          '80%': { transform: 'scale(0.98)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        glowPulse: {
+          '0%, 100%': { boxShadow: '0 0 10px rgba(168,85,247,0.4), 0 0 20px rgba(168,85,247,0.2)' },
+          '50%': { boxShadow: '0 0 20px rgba(168,85,247,0.7), 0 0 40px rgba(236,72,153,0.4)' },
+        },
+        sparkle: {
+          '0%, 100%': { opacity: '0', transform: 'scale(0) rotate(0deg)' },
+          '50%': { opacity: '1', transform: 'scale(1) rotate(180deg)' },
+        },
+        floatUp: {
+          '0%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+          '100%': { opacity: '0', transform: 'translateY(-120px) scale(0.3)' },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(-5deg)' },
+          '75%': { transform: 'rotate(5deg)' },
         },
       },
       borderRadius: {
