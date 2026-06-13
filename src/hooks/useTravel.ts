@@ -225,7 +225,7 @@ export function useTravel() {
       await db.travelCities.put({ ...city, _synced: false, _modifiedAt: Date.now() });
       setCities(prev => [...prev, city]);
     }
-  }, [cities, userId]);
+  }, [userId]);
 
   // Update an already-visited city's visitDate and feeling
   const updateCityVisit = useCallback(async (cityId: string, visitDate?: string, feeling?: string) => {
@@ -238,14 +238,11 @@ export function useTravel() {
       ? { ...c, visitDate: visitDate || null, feeling: feeling || null }
       : c));
     // Add to sync queue
-    const existing = cities.find(c => c.id === cityId);
-    if (existing) {
-      addToSyncQueue({
-        table: 'travel_cities', operation: 'update', recordId: cityId,
-        data: { visit_date: visitDate || null, feeling: feeling || null } as unknown as Record<string, unknown>,
-      });
-    }
-  }, [cities, addToSyncQueue]);
+    addToSyncQueue({
+      table: 'travel_cities', operation: 'update', recordId: cityId,
+      data: { visit_date: visitDate || null, feeling: feeling || null } as unknown as Record<string, unknown>,
+    });
+  }, [addToSyncQueue]);
 
   const visitedCities = cities.filter(c => c.isVisited);
 
