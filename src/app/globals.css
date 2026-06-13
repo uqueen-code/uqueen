@@ -308,4 +308,18 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Pure CSS GPU-accelerated float animation for Snorlax */
+  .animate-float-snorlax {
+    animation: floatSnorlax 3.5s ease-in-out infinite;
+    will-change: transform;
+  }
+  .animate-float-snorlax img {
+    will-change: transform;
+  }
+}
+
+@keyframes floatSnorlax {
+  0%, 100% { transform: translateY(0) translateZ(0); }
+  50% { transform: translateY(-6px) translateZ(0); }
 }
