@@ -156,6 +156,67 @@ export interface SyncQueueItem {
   recordId: string; data: Record<string, unknown>; timestamp: number; retryCount: number;
 }
 
+// New tables
+export interface OfflineMedicationLog {
+  id: string; userId: string; medicationName: string; reason: string;
+  startDate: string; duration: string; dosage: string | null; notes: string | null;
+  isCompleted: boolean; createdAt: string; updatedAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
+export interface OfflineMoodLog {
+  id: string; userId: string; date: string; rating: number; note: string | null;
+  createdAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
+export interface OfflineEmotionEntry {
+  id: string; userId: string; date: string; emotion: string; eaten: boolean;
+  createdAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
+export interface OfflineTravelCity {
+  id: string; userId: string; city: string; country: string;
+  lat: number; lng: number; visitDate: string | null; feeling: string | null;
+  isVisited: boolean; createdAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
+export interface OfflineTravelRecommendation {
+  id: string; date: string; destination: string; country: string;
+  days: number; attractions: string[]; route: string; food: string[];
+  scenery: string; imageUrl: string | null;
+}
+
+export interface OfflineCountryKnowledge {
+  id: string; date: string; country: string; capital: string; flag: string;
+  population: string; funFacts: string[]; history: string; culture: string;
+  geography: string;
+}
+
+export interface OfflineBusinessIdea {
+  id: string; userId: string; name: string; value: string;
+  status: 'watching' | 'researching' | 'testing' | 'paused';
+  nextAction: string; createdAt: string; updatedAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
+export interface OfflineBusinessProject {
+  id: string; userId: string; title: string; description: string | null;
+  category: 'important_not_urgent' | 'weekly_focus' | 'blocked';
+  stage: 'todo' | 'in_progress' | 'done'; blockerReason: string | null;
+  order: number; createdAt: string; updatedAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
+export interface OfflineBusinessTransaction {
+  id: string; userId: string; date: string; type: 'income' | 'expense';
+  channel: string; amount: number; description: string; roiNote: string | null;
+  createdAt: string;
+  _synced: boolean; _modifiedAt: number;
+}
+
 /**
  * AppDatabase — manages all IndexedDB tables.
  */
@@ -180,12 +241,21 @@ export class AppDatabase extends Dexie {
   wellness!: Table<OfflineWellness, string>;
   portfolioItems!: Table<OfflinePortfolioItem, string>;
   financeInfo!: Table<OfflineFinanceInfo, string>;
+  medicationLogs!: Table<OfflineMedicationLog, string>;
+  moodLogs!: Table<OfflineMoodLog, string>;
+  emotionEntries!: Table<OfflineEmotionEntry, string>;
+  travelCities!: Table<OfflineTravelCity, string>;
+  travelRecommendations!: Table<OfflineTravelRecommendation, string>;
+  countryKnowledge!: Table<OfflineCountryKnowledge, string>;
+  businessIdeas!: Table<OfflineBusinessIdea, string>;
+  businessProjects!: Table<OfflineBusinessProject, string>;
+  businessTransactions!: Table<OfflineBusinessTransaction, string>;
   syncQueue!: Table<SyncQueueItem, number>;
 
   constructor() {
     super('PersonalGrowthDB');
 
-    this.version(4).stores({
+    this.version(5).stores({
       todos: 'id, userId, category, dueDate, isCompleted, _synced',
       habitLogs: 'id, userId, date, category, _synced',
       goals: 'id, userId, type, deadline, _synced',
@@ -204,8 +274,17 @@ export class AppDatabase extends Dexie {
       illnessLogs: 'id, userId, date, _synced',
       menstrualLogs: 'id, userId, startDate, _synced',
       wellness: 'id, date',
+      medicationLogs: 'id, userId, startDate, _synced',
+      moodLogs: 'id, userId, date, _synced',
+      emotionEntries: 'id, userId, date, _synced',
+      travelCities: 'id, userId, country, _synced',
+      travelRecommendations: 'id, date',
+      countryKnowledge: 'id, date',
       portfolioItems: 'id, userId, type, _synced',
       financeInfo: 'id, date',
+      businessIdeas: 'id, userId, status, _synced',
+      businessProjects: 'id, userId, category, stage, _synced',
+      businessTransactions: 'id, userId, date, type, _synced',
       syncQueue: '++id, table, operation, timestamp',
     });
   }

@@ -11,6 +11,8 @@ import {
   GraduationCap,
   Mic,
   Heart,
+  Brain,
+  Map,
   Landmark,
   Briefcase,
   Settings,
@@ -43,6 +45,8 @@ const NAV_TABS = [
   { path: '/learning', label: 'nav.learning', icon: GraduationCap, module: 'learning' },
   { path: '/speaking', label: 'nav.speaking', icon: Mic, module: 'speaking' },
   { path: '/health', label: 'nav.health', icon: Heart, module: 'health' },
+  { path: '/psychology', label: 'nav.psychology', icon: Brain, module: 'psychology' },
+  { path: '/travel', label: 'nav.travel', icon: Map, module: 'travel' },
   { path: '/finance', label: 'nav.finance', icon: Landmark, module: 'finance' },
   { path: '/business', label: 'nav.business', icon: Briefcase, module: 'business' },
 ];

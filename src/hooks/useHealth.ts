@@ -7,7 +7,7 @@ import { getDatabase } from '@/lib/db/indexeddb';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { getTodayString } from '@/lib/utils/date';
 import { Severity, FlowIntensity } from '@/types/enums';
-import type { IllnessLog, MenstrualLog, DailyWellness } from '@/types/models';
+import type { IllnessLog, MenstrualLog, DailyWellness, MedicationLog } from '@/types/models';
 
 const PLACEHOLDER_USER_ID = 'local-user';
 
@@ -48,6 +48,7 @@ export function useHealth() {
   const [illnessLogs, setIllnessLogs] = useState<IllnessLog[]>([]);
   const [menstrualLogs, setMenstrualLogs] = useState<MenstrualLog[]>([]);
   const [dailyWellness, setDailyWellness] = useState<DailyWellness | null>(null);
+  const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const user = useAuthStore((s) => s.user);
@@ -64,14 +65,16 @@ export function useHealth() {
     setIsLoading(true);
     try {
       const db = getDatabase();
-      const [ill, men, wel] = await Promise.all([
+      const [ill, men, wel, med] = await Promise.all([
         db.illnessLogs.where('userId').equals(userId).reverse().limit(30).toArray(),
         db.menstrualLogs.where('userId').equals(userId).reverse().limit(12).toArray(),
         db.wellness.where('date').equals(today).first(),
+        db.medicationLogs.where('userId').equals(userId).reverse().limit(50).toArray(),
       ]);
 
       setIllnessLogs(ill.map(i => ({ id: i.id, userId: i.userId, date: i.date, illnessType: i.illnessType, severity: i.severity as Severity | null, symptoms: i.symptoms, medication: i.medication, recoveryDate: i.recoveryDate, notes: i.notes, createdAt: i.createdAt })));
       setMenstrualLogs(men.map(m => ({ id: m.id, userId: m.userId, startDate: m.startDate, endDate: m.endDate, cycleLength: m.cycleLength, symptoms: m.symptoms, flowIntensity: m.flowIntensity as FlowIntensity | null, notes: m.notes, createdAt: m.createdAt })));
+      setMedicationLogs(med.map(m => ({ id: m.id, userId: m.userId, medicationName: m.medicationName, reason: m.reason, startDate: m.startDate, duration: m.duration, dosage: m.dosage, notes: m.notes, isCompleted: m.isCompleted, createdAt: m.createdAt, updatedAt: m.updatedAt })));
 
       if (wel) {
         setDailyWellness({ id: wel.id, date: wel.date, dietRecommendation: wel.dietRecommendation, exerciseRecommendation: wel.exerciseRecommendation, wellnessTips: wel.wellnessTips, suitableFor: wel.suitableFor });
@@ -128,6 +131,34 @@ export function useHealth() {
     return log;
   }, [userId, addToSyncQueue]);
 
+  // Log medication
+  const logMedication = useCallback(async (data: {
+    medicationName: string; reason: string; startDate: string;
+    duration: string; dosage?: string; notes?: string;
+  }): Promise<MedicationLog> => {
+    const id = crypto.randomUUID?.() ?? `med_${Date.now()}`;
+    const now = new Date().toISOString();
+    const log: MedicationLog = {
+      id, userId, medicationName: data.medicationName, reason: data.reason,
+      startDate: data.startDate, duration: data.duration,
+      dosage: data.dosage ?? null, notes: data.notes ?? null,
+      isCompleted: false, createdAt: now, updatedAt: now,
+    };
+    const db = getDatabase();
+    await db.medicationLogs.put({ ...log, _synced: false, _modifiedAt: Date.now() });
+    addToSyncQueue({ table: 'medication_logs', operation: 'insert', recordId: id, data: log as unknown as Record<string, unknown> });
+    setMedicationLogs(prev => [log, ...prev]);
+    return log;
+  }, [userId, addToSyncQueue]);
+
+  // Delete medication
+  const deleteMedication = useCallback(async (id: string) => {
+    const db = getDatabase();
+    await db.medicationLogs.delete(id);
+    addToSyncQueue({ table: 'medication_logs', operation: 'delete', recordId: id, data: {} });
+    setMedicationLogs(prev => prev.filter(m => m.id !== id));
+  }, [addToSyncQueue]);
+
   // Predict next cycle
   const lastMenstrual = menstrualLogs[0] ?? null;
   const avgCycleLength = menstrualLogs.length >= 2
@@ -140,7 +171,9 @@ export function useHealth() {
 
   return {
     illnessLogs, menstrualLogs, dailyWellness,
+    medicationLogs,
     lastMenstrual, avgCycleLength, predictedNextDate,
-    isLoading, logIllness, logMenstrual, refresh: loadData,
+    isLoading, logIllness, logMenstrual, logMedication, deleteMedication,
+    refresh: loadData,
   };
 }

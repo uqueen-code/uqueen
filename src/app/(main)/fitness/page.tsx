@@ -9,7 +9,7 @@ import { WeightTracker } from '@/components/fitness/WeightTracker';
 import { WorkoutPlan } from '@/components/fitness/WorkoutPlan';
 import { ExerciseCheckin } from '@/components/fitness/ExerciseCheckin';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { RecurType, Priority, ModuleCategory } from '@/types/enums';
+import { Priority, ModuleCategory } from '@/types/enums';
 import toast from 'react-hot-toast';
 
 export default function FitnessPage() {
@@ -21,7 +21,6 @@ export default function FitnessPage() {
   } = useFitness();
   const { createTodo } = useTodos();
 
-  // Auto-generate plan when conditions are met
   useEffect(() => {
     if (shouldGeneratePlan && fitnessData) {
       generatePlan(fitnessData);
@@ -29,18 +28,14 @@ export default function FitnessPage() {
     }
   }, [shouldGeneratePlan, fitnessData, generatePlan]);
 
-  // Handle data save → triggers plan generation
   const handleSaveFitnessData = useCallback(async (data: Parameters<typeof saveFitnessData>[0]) => {
     await saveFitnessData(data);
     toast.success('数据已保存', { icon: '✅' });
   }, [saveFitnessData]);
 
-  // Handle plan acceptance → create daily todos for the plan
   const handleAcceptPlan = useCallback(async (planId: string) => {
     const plan = await acceptPlan(planId);
-    if (!plan) return;
-
-    // Create todos for the next 7 days from the plan
+    if (!plan) return null;
     const today = new Date();
     const todoPromises = plan.planData.daily.slice(0, 7).map((dayTask, i) => {
       const dueDate = new Date(today);
@@ -54,23 +49,17 @@ export default function FitnessPage() {
         isRecurring: false,
       });
     });
-
     await Promise.all(todoPromises);
     toast.success('方案已接受！未来7天的训练已加入每日待办 🎯');
     return plan;
   }, [acceptPlan, createTodo]);
 
-  // Handle exercise log
   const handleLogExercise = useCallback(async (data: Parameters<typeof logExercise>[0]) => {
     await logExercise(data);
   }, [logExercise]);
 
   if (isLoading) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
-        <LoadingSpinner size="lg" text="加载健身数据..." />
-      </div>
-    );
+    return <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20"><LoadingSpinner size="lg" text="加载健身数据..." /></div>;
   }
 
   return (
@@ -81,49 +70,31 @@ export default function FitnessPage() {
           {t('fitness.title')}
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)' }}>
-          {fitnessData ? '继续坚持，每一天都在变好' : t('fitness.noDataPrompt')}
+          {fitnessData ? '继续坚持，每一天都在变好' : '填写身体数据，自动生成定制方案'}
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Column 1: Weight Management */}
         <div className="lg:col-span-1">
-          <WeightTracker
-            fitnessData={fitnessData}
-            onSave={handleSaveFitnessData}
-            hasPlan={plans.length > 0}
-          />
+          <WeightTracker fitnessData={fitnessData} onSave={handleSaveFitnessData} hasPlan={plans.length > 0} />
         </div>
-
-        {/* Column 2: Workout Plan */}
         <div className="lg:col-span-1">
           {plans.length > 0 ? (
             <WorkoutPlan plan={plans[plans.length - 1]!} onAccept={handleAcceptPlan} />
           ) : fitnessData ? (
             <div className="module-card text-center py-8" style={{ '--module-accent': '#3b82f6' } as React.CSSProperties}>
               <Sparkles className="h-10 w-10 mx-auto mb-3" style={{ color: '#3b82f6' }} />
-              <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
-                {t('fitness.generatingPlan')}
-              </p>
-              <p className="text-xs mt-2" style={{ color: 'var(--color-text-muted)' }}>
-                方案将自动显示在这里
-              </p>
+              <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>正在生成定制方案...</p>
             </div>
           ) : (
             <div className="module-card text-center py-8" style={{ '--module-accent': '#3b82f6' } as React.CSSProperties}>
               <Dumbbell className="h-10 w-10 mx-auto mb-3" style={{ color: 'var(--color-text-muted)', opacity: 0.4 }} />
-              <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                填写左侧身体数据后，自动生成定制方案
-              </p>
+              <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>填写左侧身体数据后自动生成定制方案</p>
             </div>
           )}
         </div>
-
-        {/* Column 3: Exercise Check-in */}
         <div className="lg:col-span-1">
           <ExerciseCheckin onLog={handleLogExercise} />
-
-          {/* Recent exercise logs */}
           {exerciseLogs.length > 0 && (
             <div className="mt-4 module-card" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
               <h3 className="text-xs font-medium mb-2" style={{ color: 'var(--color-text-muted)' }}>最近记录</h3>

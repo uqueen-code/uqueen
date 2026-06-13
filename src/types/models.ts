@@ -284,6 +284,117 @@ export interface DailyWellness {
   suitableFor: string;
 }
 
+// Medication tracking
+export interface MedicationLog {
+  id: string;
+  userId: string;
+  medicationName: string;
+  reason: string;
+  startDate: string;
+  duration: string;
+  dosage: string | null;
+  notes: string | null;
+  isCompleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Psychology / Mood
+export interface MoodLog {
+  id: string;
+  userId: string;
+  date: string;
+  rating: number; // 0-5, increments of 0.5
+  note: string | null;
+  createdAt: string;
+}
+
+export interface EmotionMonsterEntry {
+  id: string;
+  userId: string;
+  date: string;
+  emotion: string;
+  eaten: boolean;
+  createdAt: string;
+}
+
+// Travel
+export interface TravelCity {
+  id: string;
+  userId: string;
+  city: string;
+  country: string;
+  lat: number;
+  lng: number;
+  visitDate: string | null;
+  feeling: string | null;
+  isVisited: boolean;
+  createdAt: string;
+}
+
+export interface TravelRecommendation {
+  id: string;
+  date: string;
+  destination: string;
+  country: string;
+  days: number;
+  attractions: string[];
+  route: string;
+  food: string[];
+  scenery: string;
+  imageUrl: string | null;
+}
+
+export interface CountryKnowledge {
+  id: string;
+  date: string;
+  country: string;
+  capital: string;
+  flag: string;
+  population: string;
+  funFacts: string[];
+  history: string;
+  culture: string;
+  geography: string;
+}
+
+// Business
+export interface BusinessIdea {
+  id: string;
+  userId: string;
+  name: string;
+  value: string;
+  status: 'watching' | 'researching' | 'testing' | 'paused';
+  nextAction: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BusinessProject {
+  id: string;
+  userId: string;
+  title: string;
+  description: string | null;
+  category: 'important_not_urgent' | 'weekly_focus' | 'blocked';
+  stage: 'todo' | 'in_progress' | 'done';
+  blockerReason: string | null;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BusinessTransaction {
+  id: string;
+  userId: string;
+  date: string;
+  type: 'income' | 'expense';
+  channel: string;
+  amount: number;
+  description: string;
+  roiNote: string | null;
+  createdAt: string;
+}
+
 // ---- Finance ----
 export interface PortfolioItem {
   id: string;

@@ -9,17 +9,21 @@ export enum ModuleCategory {
   LEARNING = 'learning',
   HEALTH = 'health',
   SPEAKING = 'speaking',
+  PSYCHOLOGY = 'psychology',
+  TRAVEL = 'travel',
   FINANCE = 'finance',
   BUSINESS = 'business',
 }
 
-/** All 7 habit-tracking categories */
+/** All 9 habit-tracking categories */
 export const HABIT_CATEGORIES = [
   ModuleCategory.FITNESS,
   ModuleCategory.READING,
   ModuleCategory.LEARNING,
   ModuleCategory.HEALTH,
   ModuleCategory.SPEAKING,
+  ModuleCategory.PSYCHOLOGY,
+  ModuleCategory.TRAVEL,
   ModuleCategory.FINANCE,
   ModuleCategory.BUSINESS,
 ] as const;
@@ -47,6 +51,9 @@ export enum TodoSource {
   MANUAL = 'manual',
   FITNESS_PLAN = 'fitness_plan',
   LEARNING_PLAN = 'learning_plan',
+  READING_LOG = 'reading_log',
+  MEDICATION_LOG = 'medication_log',
+  MOOD_LOG = 'mood_log',
 }
 
 /** Goal types */
