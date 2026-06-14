@@ -1,34 +1,30 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
-import { X, Sun, Moon, Leaf, Globe, Type, Wifi, WifiOff, Database, Download, Trash2, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { X, Sun, Moon, Leaf, Type, WifiOff, Database, Download, Trash2, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { useSettingsStore, FONT_SIZE_MAP } from '@/stores/settingsStore';
 import { useOfflineStore } from '@/stores/offlineStore';
 import { useSync } from '@/hooks/useSync';
 import { getDatabase } from '@/lib/db/indexeddb';
-import { ThemeMode, SUPPORTED_LANGUAGES, LANGUAGE_NAMES } from '@/types/enums';
 import { THEMES } from '@/lib/themes/config';
 import { cn } from '@/lib/utils/cn';
 import toast from 'react-hot-toast';
 
 /**
- * Settings Dashboard — slide-out panel.
- * Controls: Language, Theme, Font Size, Offline Mode, Data Management.
+ * 设置面板 — 外科手术式修复：
+ * 1. 彻底移除useTranslation，全部硬编码中文
+ * 2. 彻底移除语言切换面板（language/setLanguage/Globe/SUPPORTED_LANGUAGES）
+ * 3. 移除i18next相关import，消除异步加载死锁
  */
 export function SettingsPanel() {
-  const { t } = useTranslation();
   const {
     isSettingsOpen,
     closeSettings,
     theme,
     setTheme,
-    language,
-    setLanguage,
     fontSize,
     setGlobalFontSize,
   } = useSettingsStore();
   const { offlineModeEnabled, setOfflineModeEnabled } = useOfflineStore();
-  const { syncNow, pendingCount, syncStatus, isOnline } = useSync();
 
   // Export all IndexedDB data as JSON download
   const handleExportData = async () => {
@@ -36,8 +32,8 @@ export function SettingsPanel() {
       const db = getDatabase();
       const data: Record<string, unknown> = {};
       const tables = ['todos','habitLogs','goals','countdowns','fitnessData','fitnessPlans','exerciseLogs','readingLogs','learningCategories','learningPlans','learningLogs','speakingLanguages','speakingLogs','illnessLogs','menstrualLogs','portfolioItems'];
-      for (const t of tables) {
-        try { data[t] = await (db as any)[t]?.toArray?.() ?? []; } catch { data[t] = []; }
+      for (const table of tables) {
+        try { data[table] = await (db as any)[table]?.toArray?.() ?? []; } catch { data[table] = []; }
       }
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -54,7 +50,7 @@ export function SettingsPanel() {
     try {
       const db = getDatabase();
       const tables = ['todos','habitLogs','goals','countdowns','fitnessData','fitnessPlans','exerciseLogs','readingLogs','learningCategories','learningPlans','learningLogs','speakingLanguages','speakingLogs','illnessLogs','menstrualLogs','portfolioItems','syncQueue'];
-      for (const t of tables) { try { await (db as any)[t]?.clear?.(); } catch { /* */ } }
+      for (const table of tables) { try { await (db as any)[table]?.clear?.(); } catch { /* */ } }
       toast.success('本地数据已清除');
     } catch { toast.error('清除失败'); }
   };
@@ -84,7 +80,7 @@ export function SettingsPanel() {
           }}
         >
           <h2 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-            {t('settings.title')}
+            设置
           </h2>
           <button
             onClick={closeSettings}
@@ -100,7 +96,7 @@ export function SettingsPanel() {
           <section>
             <h3 className="flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>
               <Sun className="h-4 w-4" style={{ color: 'var(--color-accent)' }} />
-              {t('settings.theme')}
+              主题
             </h3>
             <div className="grid grid-cols-3 gap-3">
               {THEMES.map((tConfig) => {
@@ -151,7 +147,7 @@ export function SettingsPanel() {
           <section>
             <h3 className="flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>
               <Type className="h-4 w-4" style={{ color: 'var(--color-accent)' }} />
-              {t('settings.fontSize')}
+              字体大小
             </h3>
             <div className="flex items-center gap-3">
               {(['small', 'medium', 'large'] as const).map((size) => (
@@ -188,17 +184,17 @@ export function SettingsPanel() {
               {offlineModeEnabled ? (
                 <WifiOff className="h-4 w-4" style={{ color: 'var(--color-text-muted)' }} />
               ) : (
-                <Wifi className="h-4 w-4" style={{ color: 'var(--color-success)' }} />
+                <Sun className="h-4 w-4" style={{ color: 'var(--color-success)' }} />
               )}
-              {t('settings.offlineMode')}
+              离线模式
             </h3>
             <label className="flex items-center justify-between p-4 rounded-xl cursor-pointer" style={{ background: 'var(--color-surface-alt)' }}>
               <div>
                 <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
-                  {t('settings.offlineMode')}
+                  离线模式
                 </p>
                 <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
-                  {t('settings.offlineModeDesc')}
+                  开启后数据将暂存本地，上线后自动同步
                 </p>
               </div>
               <div
@@ -236,7 +232,7 @@ export function SettingsPanel() {
           <section>
             <h3 className="flex items-center gap-2 text-sm font-semibold mb-3" style={{ color: 'var(--color-text-primary)' }}>
               <Database className="h-4 w-4" style={{ color: 'var(--color-accent)' }} />
-              {t('settings.dataManagement')}
+              数据管理
             </h3>
             <div className="space-y-2">
               <button
@@ -245,7 +241,7 @@ export function SettingsPanel() {
                 style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text-secondary)' }}
               >
                 <Download className="h-4 w-4" />
-                {t('settings.exportData')} (JSON)
+                导出数据 (JSON)
               </button>
               <button
                 onClick={handleClearData}
@@ -253,7 +249,7 @@ export function SettingsPanel() {
                 style={{ background: 'var(--color-surface-alt)', color: 'var(--color-danger)' }}
               >
                 <Trash2 className="h-4 w-4" />
-                {t('settings.clearLocalData')}
+                清除本地数据
               </button>
             </div>
           </section>
