@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Scale, Target, Ruler, Sparkles } from 'lucide-react';
 import { FitnessFocus } from '@/types/enums';
 import type { FitnessData } from '@/types/models';
@@ -25,7 +24,6 @@ const FOCUS_OPTIONS = [
 const BODY_PARTS = ['腹部', '腿部', '手臂', '背部', '臀部', '全身'];
 
 export function WeightTracker({ fitnessData, onSave, hasPlan }: WeightTrackerProps) {
-  const { t } = useTranslation();
   const [currentWeight, setCurrentWeight] = useState(fitnessData?.currentWeight?.toString() ?? '');
   const [targetWeight, setTargetWeight] = useState(fitnessData?.targetWeight?.toString() ?? '');
   const [height, setHeight] = useState(fitnessData?.height?.toString() ?? '');
@@ -56,7 +54,7 @@ export function WeightTracker({ fitnessData, onSave, hasPlan }: WeightTrackerPro
     <div className="module-card" style={{ '--module-accent': '#22c55e' } as React.CSSProperties}>
       <h2 className="section-title" style={{ '--module-accent': '#22c55e' } as React.CSSProperties}>
         <Scale className="h-5 w-5" style={{ color: '#22c55e' }} />
-        {t('fitness.weightManagement')}
+        体重追踪
         {fitnessData && !hasPlan && (
           <span className="ml-auto text-xs px-2 py-0.5 rounded-full animate-pulse-soft" style={{ background: '#22c55e20', color: '#22c55e' }}>
             <Sparkles className="h-3 w-3 inline mr-1" />
@@ -68,28 +66,28 @@ export function WeightTracker({ fitnessData, onSave, hasPlan }: WeightTrackerPro
       <div className="space-y-3">
         <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
           <Ruler className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} />
-          <span className="text-sm flex-1" style={{ color: 'var(--color-text-secondary)' }}>{t('fitness.height')}</span>
+          <span className="text-sm flex-1" style={{ color: 'var(--color-text-secondary)' }}>体重追踪</span>
           <input type="number" value={height} onChange={e => setHeight(e.target.value)}
             placeholder="cm" className="input-field w-24 text-right text-sm" />
         </div>
 
         <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
           <Scale className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} />
-          <span className="text-sm flex-1" style={{ color: 'var(--color-text-secondary)' }}>{t('fitness.currentWeight')}</span>
+          <span className="text-sm flex-1" style={{ color: 'var(--color-text-secondary)' }}>体重追踪</span>
           <input type="number" value={currentWeight} onChange={e => setCurrentWeight(e.target.value)}
             placeholder="kg" className="input-field w-24 text-right text-sm" step="0.1" />
         </div>
 
         <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
           <Target className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} />
-          <span className="text-sm flex-1" style={{ color: 'var(--color-text-secondary)' }}>{t('fitness.targetWeight')}</span>
+          <span className="text-sm flex-1" style={{ color: 'var(--color-text-secondary)' }}>体重追踪</span>
           <input type="number" value={targetWeight} onChange={e => setTargetWeight(e.target.value)}
             placeholder="kg" className="input-field w-24 text-right text-sm" step="0.1" />
         </div>
 
         {/* Focus Area */}
         <div className="p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
-          <p className="text-sm mb-2" style={{ color: 'var(--color-text-secondary)' }}>{t('fitness.focusArea')}</p>
+          <p className="text-sm mb-2" style={{ color: 'var(--color-text-secondary)' }}>体重追踪</p>
           <div className="grid grid-cols-2 gap-2">
             {FOCUS_OPTIONS.map(opt => (
               <button key={opt.value} onClick={() => setFocusArea(opt.value)}

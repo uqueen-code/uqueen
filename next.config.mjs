@@ -9,6 +9,34 @@ const nextConfig = {
     ],
   },
 
+  // PWA 支持
+  async headers() {
+    return [
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json',
+          },
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+        ],
+      },
+    ];
+  },
+
   // Vercel serverless function config
   // API routes auto-deploy as serverless functions
   experimental: {

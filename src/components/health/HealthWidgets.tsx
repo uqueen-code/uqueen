@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Stethoscope, CalendarDays, Salad, Dumbbell, Heart, Plus, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { Severity, FlowIntensity } from '@/types/enums';
@@ -16,7 +15,6 @@ interface IllnessLoggerProps {
   }) => Promise<void>;
 }
 export function IllnessLogger({ logs, onLog }: IllnessLoggerProps) {
-  const { t } = useTranslation();
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]!);
   const [type, setType] = useState('');
   const [severity, setSeverity] = useState<Severity>(Severity.MILD);
@@ -36,7 +34,7 @@ export function IllnessLogger({ logs, onLog }: IllnessLoggerProps) {
     <div className="module-card" style={{ '--module-accent': '#ec4899' } as React.CSSProperties}>
       <h2 className="section-title" style={{ '--module-accent': '#ec4899' } as React.CSSProperties}>
         <Stethoscope className="h-5 w-5" style={{ color: '#ec4899' }} />
-        {t('health.illnessLog')}
+        疾病记录
       </h2>
       <div className="space-y-2.5">
         <div className="flex gap-2">
@@ -52,7 +50,7 @@ export function IllnessLogger({ logs, onLog }: IllnessLoggerProps) {
         <input type="text" value={medication} onChange={e => setMedication(e.target.value)} placeholder="用药情况" className="input-field text-sm" />
         <button onClick={handleSubmit} disabled={isSubmitting || !type.trim()}
           className="btn-primary w-full text-sm" style={{ '--color-accent': '#ec4899', '--color-accent-hover': '#db2777' } as React.CSSProperties}>
-          {t('common.submit')}
+          提交
         </button>
       </div>
       {logs.length > 0 && (
@@ -82,7 +80,6 @@ interface MenstrualTrackerProps {
   }) => Promise<void>;
 }
 export function MenstrualTracker({ logs, lastMenstrual, avgCycleLength, predictedNextDate, onLog }: MenstrualTrackerProps) {
-  const { t } = useTranslation();
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]!);
   const [endDate, setEndDate] = useState('');
   const [flowIntensity, setFlowIntensity] = useState<FlowIntensity>(FlowIntensity.NORMAL);
@@ -119,7 +116,7 @@ export function MenstrualTracker({ logs, lastMenstrual, avgCycleLength, predicte
     <div className="module-card" style={{ '--module-accent': '#f472b6' } as React.CSSProperties}>
       <h2 className="section-title" style={{ '--module-accent': '#f472b6' } as React.CSSProperties}>
         <CalendarDays className="h-5 w-5" style={{ color: '#f472b6' }} />
-        {t('health.menstrualLog')}
+        经期记录
       </h2>
 
       {/* Stats */}
@@ -140,11 +137,11 @@ export function MenstrualTracker({ logs, lastMenstrual, avgCycleLength, predicte
       <div className="space-y-2.5">
         <div className="flex gap-2">
           <div className="flex-1">
-            <label className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>{t('health.startDate')}</label>
+            <label className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>开始日期</label>
             <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="input-field text-sm w-full mt-0.5" />
           </div>
           <div className="flex-1">
-            <label className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>{t('health.endDate')}</label>
+            <label className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>结束日期</label>
             <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="input-field text-sm w-full mt-0.5" />
           </div>
         </div>
@@ -153,10 +150,10 @@ export function MenstrualTracker({ logs, lastMenstrual, avgCycleLength, predicte
           <option value={FlowIntensity.NORMAL}>{FlowIntensity.NORMAL}</option>
           <option value={FlowIntensity.HEAVY}>{FlowIntensity.HEAVY}</option>
         </select>
-        <input type="text" value={symptoms} onChange={e => setSymptoms(e.target.value)} placeholder={t('health.symptoms')} className="input-field text-sm" />
+        <input type="text" value={symptoms} onChange={e => setSymptoms(e.target.value)} placeholder="症状描述" className="input-field text-sm" />
         <button onClick={handleSubmit} disabled={isSubmitting}
           className="btn-primary w-full text-sm" style={{ '--color-accent': '#f472b6', '--color-accent-hover': '#db2777' } as React.CSSProperties}>
-          {t('common.submit')}
+          提交
         </button>
       </div>
 
@@ -194,7 +191,6 @@ interface DailyWellnessProps {
   wellness: DailyWellness | null;
 }
 export function DailyWellnessCard({ wellness }: DailyWellnessProps) {
-  const { t } = useTranslation();
 
   if (!wellness) return null;
 
@@ -202,20 +198,20 @@ export function DailyWellnessCard({ wellness }: DailyWellnessProps) {
     <div className="module-card" style={{ '--module-accent': '#a78bfa' } as React.CSSProperties}>
       <h2 className="section-title" style={{ '--module-accent': '#a78bfa' } as React.CSSProperties}>
         <Heart className="h-5 w-5" style={{ color: '#a78bfa' }} />
-        {t('health.dailyWellness')}
+        每日健康
       </h2>
       <div className="space-y-3">
         <div className="p-4 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
           <div className="flex items-center gap-2 mb-2">
             <Salad className="h-4 w-4" style={{ color: '#22c55e' }} />
-            <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>{t('health.dietRecommendation')}</h4>
+            <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>饮食建议</h4>
           </div>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>{wellness.dietRecommendation}</p>
         </div>
         <div className="p-4 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
           <div className="flex items-center gap-2 mb-2">
             <Dumbbell className="h-4 w-4" style={{ color: '#ec4899' }} />
-            <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>{t('health.exerciseRecommendation')}</h4>
+            <h4 className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>运动建议</h4>
           </div>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>{wellness.exerciseRecommendation}</p>
         </div>

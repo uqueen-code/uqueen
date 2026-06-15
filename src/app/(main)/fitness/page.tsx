@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Dumbbell, Sparkles } from 'lucide-react';
 import { useFitness } from '@/hooks/useFitness';
 import { useTodos } from '@/hooks/useTodos';
@@ -13,7 +12,6 @@ import { Priority, ModuleCategory } from '@/types/enums';
 import toast from 'react-hot-toast';
 
 export default function FitnessPage() {
-  const { t } = useTranslation();
   const {
     fitnessData, plans, exerciseLogs, isLoading,
     saveFitnessData, generatePlan, acceptPlan, logExercise,
@@ -67,7 +65,7 @@ export default function FitnessPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: '#22c55e' }}>
           <Dumbbell className="h-7 w-7" />
-          {t('fitness.title')}
+          健身训练
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)' }}>
           {fitnessData ? '继续坚持，每一天都在变好' : '填写身体数据，自动生成定制方案'}

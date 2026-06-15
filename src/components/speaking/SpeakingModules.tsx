@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { Headphones, Image, Link2, BookText, CheckCircle2, Circle } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { SpeakingModule as ModuleType } from '@/types/enums';
@@ -43,7 +42,6 @@ interface ShadowingProps {
   onToggle: () => void;
 }
 export function ShadowingModule({ material, completed, onToggle }: ShadowingProps) {
-  const { t } = useTranslation();
 
   return (
     <ModuleWrapper title={t('speaking.shadowing')} icon={<Headphones className="h-4 w-4" style={{ color: '#f59e0b' }} />} color="#f59e0b" completed={completed} onToggle={onToggle}>
@@ -83,7 +81,6 @@ interface PictureDescProps {
   onToggle: () => void;
 }
 export function PictureDescription({ material, completed, onToggle }: PictureDescProps) {
-  const { t } = useTranslation();
 
   return (
     <ModuleWrapper title={t('speaking.pictureDescription')} icon={<Image className="h-4 w-4" style={{ color: '#06b6d4' }} />} color="#06b6d4" completed={completed} onToggle={onToggle}>
@@ -118,7 +115,6 @@ interface ConnectedSpeechProps {
   onToggle: () => void;
 }
 export function ConnectedSpeech({ material, completed, onToggle }: ConnectedSpeechProps) {
-  const { t } = useTranslation();
 
   return (
     <ModuleWrapper title={t('speaking.connectedSpeech')} icon={<Link2 className="h-4 w-4" style={{ color: '#8b5cf6' }} />} color="#8b5cf6" completed={completed} onToggle={onToggle}>
@@ -146,7 +142,6 @@ interface TopicReadingProps {
   onToggle: () => void;
 }
 export function TopicReading({ material, completed, onToggle }: TopicReadingProps) {
-  const { t } = useTranslation();
 
   return (
     <ModuleWrapper title={t('speaking.topicReading')} icon={<BookText className="h-4 w-4" style={{ color: '#ec4899' }} />} color="#ec4899" completed={completed} onToggle={onToggle}>

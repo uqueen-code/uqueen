@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { WifiOff, CloudOff, RefreshCw, Wifi } from 'lucide-react';
 import { useOfflineStore } from '@/stores/offlineStore';
 import { useSync } from '@/hooks/useSync';
@@ -9,7 +8,6 @@ import { useSync } from '@/hooks/useSync';
  * Offline/sync status banner — shows at the top when offline or syncing.
  */
 export function OfflineBanner() {
-  const { t } = useTranslation();
   const isOnline = useOfflineStore((s) => s.isOnline);
   const offlineMode = useOfflineStore((s) => s.offlineModeEnabled);
   const { syncStatus, pendingCount, syncNow } = useSync();

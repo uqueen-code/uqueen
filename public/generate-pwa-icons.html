@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA 图标生成器</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    h1 { margin-top: 0; text-align: center; }
+    .canvas-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    canvas {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    .btn:active { transform: translateY(0); }
+    .status {
+      text-align: center;
+      padding: 15px;
+      margin: 20px 0;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .success { background: rgba(34, 197, 94, 0.3); }
+    .label {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 PWA 图标生成器</h1>
+
+    <div class="status" id="status">
+      准备生成图标...
+    </div>
+
+    <div class="canvas-container">
+      <div>
+        <canvas id="canvas192" width="192" height="192"></canvas>
+        <div class="label">192 × 192 px</div>
+      </div>
+      <div>
+        <canvas id="canvas512" width="512" height="512"></canvas>
+        <div class="label">512 × 512 px</div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="generateAndDownload()">
+      🚀 生成并下载图标
+    </button>
+
+    <button class="btn" onclick="copyToClipboard()">
+      📋 复制生成说明
+    </button>
+  </div>
+
+  <script>
+    // 生成图标函数
+    function createIcon(canvasId, size) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+
+      // 清空画布
+      ctx.clearRect(0, 0, size, size);
+
+      // 绘制渐变背景
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#6366f1');
+      gradient.addColorStop(1, '#8b5cf6');
+
+      // 绘制圆角矩形
+      const radius = size * 0.2;
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // 绘制白色 "G" 字母
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${size * 0.5}px Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('G', size / 2, size / 2);
+
+      return canvas;
+    }
+
+    // 下载图标
+    function downloadIcon(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // 生成并下载
+    function generateAndDownload() {
+      const status = document.getElementById('status');
+      status.textContent = '⏳ 正在生成图标...';
+      status.className = 'status';
+
+      setTimeout(() => {
+        // 生成 192x192
+        const canvas192 = createIcon('canvas192', 192);
+        downloadIcon(canvas192, 'icon-192x192.png');
+
+        // 延迟下载第二个，避免浏览器阻止
+        setTimeout(() => {
+          const canvas512 = createIcon('canvas512', 512);
+          downloadIcon(canvas512, 'icon-512x512.png');
+
+          status.textContent = '✅ 图标生成成功！请将下载的文件放到 public/assets/ 目录';
+          status.className = 'status success';
+
+          // 3秒后恢复
+          setTimeout(() => {
+            status.textContent = '准备生成图标...';
+            status.className = 'status';
+          }, 3000);
+        }, 500);
+      }, 100);
+    }
+
+    // 复制说明
+    function copyToClipboard() {
+      const text = `PWA 图标生成完成！
+
+步骤：
+1. 点击上方"生成并下载图标"按钮
+2. 将下载的 icon-192x192.png 和 icon-512x512.png
+3. 移动到项目的 public/assets/ 目录
+4. 提交代码并部署
+
+完成后即可在手机上安装 PWA 应用！`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const status = document.getElementById('status');
+        status.textContent = '✅ 说明已复制到剪贴板';
+        status.className = 'status success';
+        setTimeout(() => {
+          status.textContent = '准备生成图标...';
+          status.className = 'status';
+        }, 2000);
+      });
+    }
+
+    // 页面加载时自动生成预览
+    window.addEventListener('load', () => {
+      createIcon('canvas192', 192);
+      createIcon('canvas512', 512);
+      document.getElementById('status').textContent = '✅ 预览已生成！点击下方按钮下载图标';
+    });
+  </script>
+</body>
+</html>

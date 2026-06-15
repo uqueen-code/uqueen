@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Dumbbell,
@@ -39,16 +38,16 @@ import { MODULE_COLORS, getModuleColor } from '@/lib/themes/module-colors';
  * Navigation tab configuration.
  */
 const NAV_TABS = [
-  { path: '/dashboard', label: 'nav.dashboard', icon: LayoutDashboard, module: 'dashboard' },
-  { path: '/fitness', label: 'nav.fitness', icon: Dumbbell, module: 'fitness' },
-  { path: '/reading', label: 'nav.reading', icon: BookOpen, module: 'reading' },
-  { path: '/learning', label: 'nav.learning', icon: GraduationCap, module: 'learning' },
-  { path: '/speaking', label: 'nav.speaking', icon: Mic, module: 'speaking' },
-  { path: '/health', label: 'nav.health', icon: Heart, module: 'health' },
-  { path: '/psychology', label: 'nav.psychology', icon: Brain, module: 'psychology' },
-  { path: '/travel', label: 'nav.travel', icon: Map, module: 'travel' },
-  { path: '/finance', label: 'nav.finance', icon: Landmark, module: 'finance' },
-  { path: '/business', label: 'nav.business', icon: Briefcase, module: 'business' },
+  { path: '/dashboard', label: '控制台', icon: LayoutDashboard, module: 'dashboard' },
+  { path: '/fitness', label: '健身', icon: Dumbbell, module: 'fitness' },
+  { path: '/reading', label: '阅读', icon: BookOpen, module: 'reading' },
+  { path: '/learning', label: '学习', icon: GraduationCap, module: 'learning' },
+  { path: '/speaking', label: '口语', icon: Mic, module: 'speaking' },
+  { path: '/health', label: '健康', icon: Heart, module: 'health' },
+  { path: '/psychology', label: '心理', icon: Brain, module: 'psychology' },
+  { path: '/travel', label: '旅行', icon: Map, module: 'travel' },
+  { path: '/finance', label: '财务', icon: Landmark, module: 'finance' },
+  { path: '/business', label: '商业', icon: Briefcase, module: 'business' },
 ];
 
 const THEME_ICONS: Record<ThemeMode, React.ReactNode> = {
@@ -61,7 +60,6 @@ const THEME_ICONS: Record<ThemeMode, React.ReactNode> = {
  * Main top navigation bar with module tabs, auth, and settings.
  */
 export function Navbar() {
-  const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -107,7 +105,7 @@ export function Navbar() {
               >
                 G
               </div>
-              <span className="hidden sm:inline">{t('app.shortName')}</span>
+              <span className="hidden sm:inline">成长管家</span>
             </Link>
           </div>
 
@@ -133,7 +131,7 @@ export function Navbar() {
                   } as React.CSSProperties}
                 >
                   <tab.icon className="h-4 w-4" />
-                  <span>{t(tab.label)}</span>
+                  <span>{tab.label}</span>
                 </Link>
               );
             })}
@@ -146,7 +144,7 @@ export function Navbar() {
               onClick={() => setOfflineModeEnabled(!offlineModeEnabled)}
               className="p-2 rounded-lg transition-colors"
               style={{ background: 'var(--color-surface-hover)' }}
-              title={offlineModeEnabled ? t('common.offline') : t('common.online')}
+              title={offlineModeEnabled ? '离线' : '在线'}
             >
               {isOnline && !offlineModeEnabled ? (
                 <Wifi className="h-4 w-4" style={{ color: 'var(--color-success)' }} />
@@ -198,7 +196,7 @@ export function Navbar() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all btn-primary"
               >
                 <LogIn className="h-3.5 w-3.5" />
-                <span>{t('auth.login')}</span>
+                <span>登录</span>
               </Link>
             )}
 
@@ -249,7 +247,7 @@ export function Navbar() {
                     }}
                   >
                     <tab.icon className="h-5 w-5" />
-                    <span>{t(tab.label)}</span>
+                    <span>{tab.label}</span>
                   </Link>
                 );
               })}

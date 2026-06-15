@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { Landmark } from 'lucide-react';
 import { useFinance } from '@/hooks/useFinance';
 import { useHabits } from '@/hooks/useHabits';
@@ -10,7 +9,6 @@ import { ModuleCategory } from '@/types/enums';
 import toast from 'react-hot-toast';
 
 export default function FinancePage() {
-  const { t } = useTranslation();
   const {
     portfolio, dailyInfo, stats, chartData, isLoading,
     addItem, updatePrice, deleteItem,
@@ -32,7 +30,7 @@ export default function FinancePage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: '#eab308' }}>
           <Landmark className="h-7 w-7" />
-          {t('finance.title')}
+          财务管理
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)' }}>
           理财就是理生活 · 每日资讯 + 资产追踪 + 投资知识

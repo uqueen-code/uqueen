@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Play, Pause, RotateCcw, Gauge, Upload, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { PLAYBACK_SPEEDS } from '@/types/enums';
@@ -22,7 +21,6 @@ interface AudioPlayerProps {
  * - Time display (current / total)
  */
 export function AudioPlayer({ audioUrl, label, onLocalFile }: AudioPlayerProps) {
-  const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

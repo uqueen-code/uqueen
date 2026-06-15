@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { BookMarked, CheckCircle2, BookOpen } from 'lucide-react';
 import type { ReadingLog as ReadingLogType, DailyBookRecommendation } from '@/types/models';
 
@@ -16,7 +15,6 @@ interface ReadingLogProps {
 }
 
 export function ReadingLog({ dailyBook, todayLogs, didReadToday, onLog }: ReadingLogProps) {
-  const { t } = useTranslation();
   const [bookTitle, setBookTitle] = useState('');
   const [chapter, setChapter] = useState('');
   const [pagesRead, setPagesRead] = useState('');

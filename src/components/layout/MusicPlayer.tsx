@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Play, Pause, SkipForward, SkipBack, Upload, ExternalLink, Music } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { PLAYBACK_SPEEDS } from '@/types/enums';
@@ -16,7 +15,6 @@ import { PLAYBACK_SPEEDS } from '@/types/enums';
  * - One-click external player link
  */
 export function MusicPlayer() {
-  const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

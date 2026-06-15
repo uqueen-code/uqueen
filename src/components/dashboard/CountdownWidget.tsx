@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { Clock, Trash2, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import type { Countdown } from '@/types/models';
@@ -17,7 +16,6 @@ interface CountdownWidgetProps {
  * Sorts automatically: shortest remaining first.
  */
 export function CountdownWidget({ countdowns, onDelete, onCreateClick }: CountdownWidgetProps) {
-  const { t } = useTranslation();
 
   /**
    * Get urgency styling based on days remaining.
@@ -34,7 +32,7 @@ export function CountdownWidget({ countdowns, onDelete, onCreateClick }: Countdo
       <div className="flex items-center justify-between mb-3">
         <h2 className="section-title mb-0" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
           <Clock className="h-5 w-5" style={{ color: '#f59e0b' }} />
-          {t('dashboard.countdowns')}
+          倒计时
         </h2>
         <button
           onClick={onCreateClick}
@@ -47,7 +45,7 @@ export function CountdownWidget({ countdowns, onDelete, onCreateClick }: Countdo
 
       {countdowns.length === 0 ? (
         <EmptyState
-          title={t('dashboard.noCountdowns')}
+          title=暂无倒计时
           description="添加重要日程的倒计时提醒"
         />
       ) : (
@@ -81,7 +79,7 @@ export function CountdownWidget({ countdowns, onDelete, onCreateClick }: Countdo
                     {days}
                   </span>
                   <p className="text-[10px] -mt-0.5" style={{ color: style.text, opacity: 0.8 }}>
-                    {t('dashboard.daysRemaining')}
+                    天
                   </p>
                 </div>
 

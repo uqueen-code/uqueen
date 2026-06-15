@@ -2,7 +2,6 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
 import { Mail, Lock, LogIn, UserPlus, Eye, EyeOff, Sparkles, User, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import toast from 'react-hot-toast';
@@ -13,7 +12,6 @@ import toast from 'react-hot-toast';
  * - Register tab: create a new account with email + password + confirm password
  */
 export default function LoginPage() {
-  const { t } = useTranslation();
   const router = useRouter();
   const { signIn, signUp } = useAuthStore();
 
@@ -129,10 +127,10 @@ export default function LoginPage() {
           <Sparkles className="h-8 w-8 text-white" />
         </div>
         <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
-          {t('app.name')}
+          全能个人成长管理平台
         </h1>
         <p className="text-sm mt-2" style={{ color: 'var(--color-text-muted)' }}>
-          {t('app.tagline')}
+          掌控人生，成就更好的自己
         </p>
       </div>
 
@@ -354,7 +352,7 @@ export default function LoginPage() {
 
       {/* Footer */}
       <p className="text-center text-xs mt-6" style={{ color: 'var(--color-text-muted)' }}>
-        &copy; {new Date().getFullYear()} {t('app.shortName')}
+        &copy; {new Date().getFullYear()} 成长管家
       </p>
     </div>
   );

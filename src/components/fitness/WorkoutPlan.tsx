@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Target, Check, ChevronDown, ChevronUp, Calendar, Clock } from 'lucide-react';
 import type { FitnessPlan } from '@/types/models';
 
@@ -11,7 +10,6 @@ interface WorkoutPlanProps {
 }
 
 export function WorkoutPlan({ plan, onAccept }: WorkoutPlanProps) {
-  const { t } = useTranslation();
   const [expandedDay, setExpandedDay] = useState<number | null>(null);
   const [isAccepting, setIsAccepting] = useState(false);
   const [isAccepted, setIsAccepted] = useState(plan.isAccepted);

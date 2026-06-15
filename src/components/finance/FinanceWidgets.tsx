@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { TrendingUp, TrendingDown, Newspaper, DollarSign, Plus, X, Trash2, Edit3 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { cn } from '@/lib/utils/cn';
@@ -13,7 +12,6 @@ interface DailyInfoProps {
   info: DailyFinanceInfo | null;
 }
 export function DailyFinanceCards({ info }: DailyInfoProps) {
-  const { t } = useTranslation();
   if (!info) return null;
 
   return (
@@ -22,7 +20,7 @@ export function DailyFinanceCards({ info }: DailyInfoProps) {
         <div className="module-card" style={{ '--module-accent': '#eab308' } as React.CSSProperties}>
           <h3 className="section-title text-sm" style={{ '--module-accent': '#eab308' } as React.CSSProperties}>
             <TrendingUp className="h-4 w-4" style={{ color: '#eab308' }} />
-            {t('finance.stockPick')}
+            账户余额
           </h3>
           <div className="p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
             <div className="flex items-center justify-between mb-1">
@@ -39,7 +37,7 @@ export function DailyFinanceCards({ info }: DailyInfoProps) {
         <div className="module-card" style={{ '--module-accent': '#22c55e' } as React.CSSProperties}>
           <h3 className="section-title text-sm" style={{ '--module-accent': '#22c55e' } as React.CSSProperties}>
             <TrendingUp className="h-4 w-4" style={{ color: '#22c55e' }} />
-            {t('finance.fundPick')}
+            账户余额
           </h3>
           <div className="p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
             <p className="text-sm font-bold" style={{ color: 'var(--color-text-primary)' }}>{info.fundPick.symbol} {info.fundPick.name}</p>
@@ -51,7 +49,7 @@ export function DailyFinanceCards({ info }: DailyInfoProps) {
       <div className="module-card" style={{ '--module-accent': '#3b82f6' } as React.CSSProperties}>
         <h3 className="section-title text-sm" style={{ '--module-accent': '#3b82f6' } as React.CSSProperties}>
           <Newspaper className="h-4 w-4" style={{ color: '#3b82f6' }} />
-          {t('finance.knowledgeTip')}
+          账户余额
         </h3>
         <p className="text-sm leading-relaxed p-3 rounded-lg" style={{ background: 'var(--color-surface-alt)', color: 'var(--color-text-secondary)' }}>
           {info.knowledgeTip}
@@ -67,7 +65,6 @@ interface AddItemFormProps {
   onClose: () => void;
 }
 function AddItemForm({ onAdd, onClose }: AddItemFormProps) {
-  const { t } = useTranslation();
   const [symbol, setSymbol] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState<AssetType>(AssetType.STOCK);
@@ -86,7 +83,7 @@ function AddItemForm({ onAdd, onClose }: AddItemFormProps) {
   return (
     <div className="p-4 rounded-xl mb-3 animate-slide-down" style={{ background: 'var(--color-surface-alt)' }}>
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-bold" style={{ color: '#eab308' }}>{t('finance.addAsset')}</h4>
+        <h4 className="text-sm font-bold" style={{ color: '#eab308' }}>账户余额</h4>
         <button onClick={onClose}><X className="h-4 w-4" style={{ color: 'var(--color-text-muted)' }} /></button>
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -102,7 +99,7 @@ function AddItemForm({ onAdd, onClose }: AddItemFormProps) {
       </div>
       <button onClick={handleSubmit} disabled={isSubmitting || !symbol.trim() || !name.trim()}
         className="btn-primary w-full text-xs mt-2" style={{ '--color-accent': '#eab308', '--color-accent-hover': '#ca8a04' } as React.CSSProperties}>
-        {t('common.add')}
+        添加
       </button>
     </div>
   );
@@ -118,7 +115,6 @@ interface PortfolioManagerProps {
   onDelete: (id: string) => Promise<void>;
 }
 export function PortfolioManager({ items, stats, chartData, onAdd, onUpdatePrice, onDelete }: PortfolioManagerProps) {
-  const { t } = useTranslation();
   const [showForm, setShowForm] = useState(false);
 
   return (
@@ -126,12 +122,12 @@ export function PortfolioManager({ items, stats, chartData, onAdd, onUpdatePrice
       <div className="flex items-center justify-between mb-4">
         <h2 className="section-title mb-0" style={{ '--module-accent': '#eab308' } as React.CSSProperties}>
           <DollarSign className="h-5 w-5" style={{ color: '#eab308' }} />
-          {t('finance.portfolio')}
+          账户余额
         </h2>
         <button onClick={() => setShowForm(!showForm)}
           className="btn-primary text-xs px-3 py-1.5"
           style={{ '--color-accent': '#eab308', '--color-accent-hover': '#ca8a04' } as React.CSSProperties}>
-          <Plus className="h-3.5 w-3.5 inline mr-1" />{t('finance.addAsset')}
+          <Plus className="h-3.5 w-3.5 inline mr-1" />账户余额
         </button>
       </div>
 

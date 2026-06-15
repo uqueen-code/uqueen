@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   CheckCircle2,
   Clock,
@@ -31,8 +30,6 @@ import type { ActivityEntry } from '@/types/models';
  * - Row 4: HeatmapCalendar
  */
 export default function DashboardPage() {
-  const { t } = useTranslation();
-
   // Data hooks
   const {
     todos,
@@ -147,7 +144,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
-            {t('dashboard.title')}
+            控制台
           </h1>
           <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)' }}>
             {new Date().toLocaleDateString('zh-CN', {
@@ -162,7 +159,7 @@ export default function DashboardPage() {
         {/* Sync status indicator */}
         <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
           <div className="h-2 w-2 rounded-full" style={{ background: 'var(--color-success)' }} />
-          {t('common.synced')}
+          已同步
         </div>
       </div>
 
@@ -176,7 +173,7 @@ export default function DashboardPage() {
         {/* Column 1: Todos */}
         <div className="lg:col-span-1 space-y-4">
           <TodoWidget
-            title={t('dashboard.todayTodos')}
+            title="今日待办"
             icon={<CheckCircle2 className="h-5 w-5" style={{ color: '#6366f1' }} />}
             todos={todayTodos}
             onToggle={toggleTodo}
@@ -186,7 +183,7 @@ export default function DashboardPage() {
           />
 
           <TodoWidget
-            title={t('dashboard.tomorrowTodos')}
+            title="明日待办"
             icon={<Clock className="h-5 w-5" style={{ color: '#818cf8' }} />}
             todos={tomorrowTodos}
             onToggle={toggleTodo}
@@ -202,7 +199,7 @@ export default function DashboardPage() {
             <div className="module-card animate-slide-down" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-                  {t('dashboard.createCountdown')}
+                  创建倒计时
                 </h3>
                 <button onClick={() => setShowCountdownForm(false)} className="p-1 rounded" style={{ color: 'var(--color-text-muted)' }}>
                   <X className="h-4 w-4" />
@@ -239,7 +236,7 @@ export default function DashboardPage() {
                   className="btn-primary w-full text-sm"
                   style={{ '--color-accent': '#f59e0b', '--color-accent-hover': '#d97706' } as React.CSSProperties}
                 >
-                  {t('common.confirm')}
+                  确认
                 </button>
               </div>
             </div>
@@ -258,7 +255,7 @@ export default function DashboardPage() {
             <div className="module-card animate-slide-down" style={{ '--module-accent': '#22c55e' } as React.CSSProperties}>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-                  {t('dashboard.createGoal')}
+                  创建目标
                 </h3>
                 <button onClick={() => setShowGoalForm(false)} className="p-1 rounded" style={{ color: 'var(--color-text-muted)' }}>
                   <X className="h-4 w-4" />
@@ -307,7 +304,7 @@ export default function DashboardPage() {
                   className="btn-primary w-full text-sm"
                   style={{ '--color-accent': '#22c55e', '--color-accent-hover': '#16a34a' } as React.CSSProperties}
                 >
-                  {t('common.confirm')}
+                  确认
                 </button>
               </div>
             </div>

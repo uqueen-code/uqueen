@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Flame, Clock, Zap, Plus, PartyPopper } from 'lucide-react';
 import { EXERCISE_TYPES, type Intensity } from '@/types/enums';
 import { EXERCISE_MOTIVATIONS } from '@/hooks/useFitness';
@@ -20,7 +19,6 @@ const INTENSITY_OPTIONS: { value: Intensity; label: string; color: string }[] = 
 ];
 
 export function ExerciseCheckin({ onLog }: ExerciseCheckinProps) {
-  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState('');
   const [customType, setCustomType] = useState('');
   const [duration, setDuration] = useState('');
@@ -55,7 +53,7 @@ export function ExerciseCheckin({ onLog }: ExerciseCheckinProps) {
     <div className="module-card relative" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
       <h2 className="section-title" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
         <Flame className="h-5 w-5" style={{ color: '#f59e0b' }} />
-        {t('fitness.exerciseCheckin')}
+        运动打卡
       </h2>
 
       <div className="space-y-3">
@@ -84,7 +82,7 @@ export function ExerciseCheckin({ onLog }: ExerciseCheckinProps) {
           <div className="flex-1 flex items-center gap-2 p-2 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
             <Clock className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} />
             <input type="number" value={duration} onChange={e => setDuration(e.target.value)}
-              placeholder={t('fitness.duration')} className="bg-transparent text-sm w-full outline-none" style={{ color: 'var(--color-text-primary)' }} />
+              placeholder="时长(分钟)" className="bg-transparent text-sm w-full outline-none" style={{ color: 'var(--color-text-primary)' }} />
           </div>
           <div className="flex-1 flex items-center gap-2 p-2 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
             <Zap className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} />

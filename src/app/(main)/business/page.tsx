@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Briefcase, Lightbulb, Kanban, DollarSign,
   Plus, Trash2, ChevronRight, ChevronDown,
@@ -35,7 +34,6 @@ const CATEGORY_LABELS: Record<string, { label: string; icon: string }> = {
 };
 
 export default function BusinessPage() {
-  const { t } = useTranslation();
   const {
     ideas, projects, transactions,
     totalIncome, totalExpense, netProfit, monthlyIncome, monthlyExpense,

@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { CalendarCheck, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { HABIT_CATEGORIES, type HabitCategory } from '@/types/enums';
@@ -19,7 +18,6 @@ interface HabitTrackerProps {
  * Each habit uses its module's accent color when checked.
  */
 export function HabitTracker({ habits, onToggle, completedCount, totalCount }: HabitTrackerProps) {
-  const { t } = useTranslation();
   const percentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
@@ -27,7 +25,7 @@ export function HabitTracker({ habits, onToggle, completedCount, totalCount }: H
       <div className="flex items-center justify-between mb-4">
         <h2 className="section-title mb-0" style={{ '--module-accent': '#6366f1' } as React.CSSProperties}>
           <CalendarCheck className="h-5 w-5" style={{ color: '#6366f1' }} />
-          {t('dashboard.habits')}
+          习惯打卡
         </h2>
         {/* Progress badge */}
         <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium" style={{ background: 'var(--color-surface-alt)' }}>
@@ -102,7 +100,7 @@ export function HabitTracker({ habits, onToggle, completedCount, totalCount }: H
                   color: isChecked ? color : 'var(--color-text-secondary)',
                 }}
               >
-                {t(`nav.${category}`)}
+                category === 'fitness' ? '健身' : category === 'reading' ? '阅读' : category === 'learning' ? '学习' : category === 'speaking' ? '口语' : category === 'health' ? '健康' : category === 'psychology' ? '心理' : category
               </span>
             </button>
           );

@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { BookOpen, Sparkles, Quote } from 'lucide-react';
 import type { DailyBookRecommendation } from '@/types/models';
 
@@ -19,7 +18,6 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
 };
 
 export function DailyRecommendation({ book }: DailyRecommendationProps) {
-  const { t } = useTranslation();
 
   if (!book) {
     return (

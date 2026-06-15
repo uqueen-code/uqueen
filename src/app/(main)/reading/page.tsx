@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { BookOpen, BookMarked, Sparkles, Quote, CheckCircle2, History, Clock, BookCopy, ScrollText } from 'lucide-react';
 import { useReading } from '@/hooks/useReading';
 import { useTodos } from '@/hooks/useTodos';
@@ -114,7 +113,6 @@ const CLASSIC_PASSAGES = [
 ];
 
 export default function ReadingPage() {
-  const { t } = useTranslation();
   const { dailyBook, todayLogs, didReadToday, isLoading, logReading } = useReading();
   const { createTodo } = useTodos();
 

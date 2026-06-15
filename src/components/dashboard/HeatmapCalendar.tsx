@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import {
@@ -39,7 +38,6 @@ export function HeatmapCalendar({
   selectedModule,
   onModuleChange,
 }: HeatmapCalendarProps) {
-  const { t } = useTranslation();
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const monthStart = startOfMonth(currentMonth);
@@ -95,7 +93,7 @@ export function HeatmapCalendar({
       <div className="flex items-center justify-between mb-4">
         <h2 className="section-title mb-0" style={{ '--module-accent': '#8b5cf6' } as React.CSSProperties}>
           <TrendingUp className="h-5 w-5" style={{ color: '#8b5cf6' }} />
-          {t('dashboard.heatmap')}
+          活动热力图
         </h2>
 
         {/* Month navigator */}

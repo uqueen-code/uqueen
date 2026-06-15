@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { Mic, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 import { useSpeaking } from '@/hooks/useSpeaking';
@@ -18,7 +17,6 @@ const LANG_COLORS: Record<string, string> = {
 };
 
 export default function SpeakingPage() {
-  const { t } = useTranslation();
   const {
     languages, activeLanguages, isLoading,
     toggleLanguage, logModule, getMaterial, isModuleCompleted,
@@ -30,7 +28,7 @@ export default function SpeakingPage() {
   const handleModuleToggle = async (language: string, module: SpeakingModule) => {
     await logModule(language, module);
     if (!habits[ModuleCategory.SPEAKING]) await toggleHabit(ModuleCategory.SPEAKING);
-    toast.success(`${language} ${t(`speaking.${module}`)} 打卡成功 ✅`);
+    toast.success(`${language} 打卡 打卡成功 ✅`);
   };
 
   if (isLoading) {
@@ -42,7 +40,7 @@ export default function SpeakingPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: '#f59e0b' }}>
           <Mic className="h-7 w-7" />
-          {t('speaking.title')}
+          口语练习
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)' }}>
           勾选语言后显示四大练习模块 · 每日自动更新素材 · 支持倍速播放
@@ -52,7 +50,7 @@ export default function SpeakingPage() {
       {/* Language Selector */}
       <div className="module-card mb-6" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
         <h2 className="section-title" style={{ '--module-accent': '#f59e0b' } as React.CSSProperties}>
-          {t('speaking.selectLanguage')}
+          口语练习
         </h2>
         <div className="flex flex-wrap gap-2">
           {SPEAKING_LANGUAGES.map(lang => {

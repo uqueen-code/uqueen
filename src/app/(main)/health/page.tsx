@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Heart, Pill, Soup, Sparkles, X, AlertCircle } from 'lucide-react';
 import { useHealth } from '@/hooks/useHealth';
 import { useHabits } from '@/hooks/useHabits';
@@ -73,7 +72,6 @@ const BLOOD_NOURISH_RECIPES = [
 ];
 
 export default function HealthPage() {
-  const { t } = useTranslation();
   const {
     illnessLogs, menstrualLogs, dailyWellness,
     lastMenstrual, avgCycleLength, predictedNextDate,
@@ -185,7 +183,7 @@ export default function HealthPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: '#ec4899' }}>
           <Heart className="h-7 w-7" />
-          {t('health.title')}
+          健康管理
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--color-text-muted)' }}>
           女性友好 · 全面呵护你的健康 · 科学调理每一天

@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { Target, Plus, Trash2, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import type { Goal } from '@/types/models';
@@ -26,7 +25,6 @@ const TYPE_LABELS: Record<string, string> = {
  * Auto-sorts: shorter deadline first.
  */
 export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }: GoalWidgetProps) {
-  const { t } = useTranslation();
 
   /**
    * Get progress color based on completion percentage.
@@ -44,7 +42,7 @@ export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }:
       <div className="flex items-center justify-between mb-3">
         <h2 className="section-title mb-0" style={{ '--module-accent': '#22c55e' } as React.CSSProperties}>
           <Target className="h-5 w-5" style={{ color: '#22c55e' }} />
-          {t('dashboard.goals')}
+          目标
         </h2>
         <button
           onClick={onCreateClick}
@@ -57,7 +55,7 @@ export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }:
 
       {goals.length === 0 ? (
         <EmptyState
-          title={t('dashboard.noGoals')}
+          title=暂无目标
           description="设定2026年度目标，开始行动"
         />
       ) : (
@@ -77,7 +75,7 @@ export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }:
                       </span>
                       {goal.daysRemaining !== undefined && goal.daysRemaining > 0 && (
                         <span className="text-[10px] flex-shrink-0" style={{ color: 'var(--color-text-muted)' }}>
-                          {goal.daysRemaining}{t('dashboard.daysRemaining')}
+                          goal.daysRemaining}天
                         </span>
                       )}
                     </div>
@@ -135,7 +133,7 @@ export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }:
       {goals.length > 0 && (
         <div className="mt-3 pt-3 border-t flex items-center justify-between text-xs" style={{ borderColor: 'var(--color-border)' }}>
           <span style={{ color: 'var(--color-text-muted)' }}>
-            {goals.filter((g) => g.isCompleted).length}/{goals.length} {t('dashboard.completed')}
+            {goals.filter((g) => g.isCompleted).length}/{goals.length} 已完成
           </span>
           <span className="flex items-center gap-1" style={{ color: 'var(--color-success)' }}>
             <TrendingUp className="h-3 w-3" />

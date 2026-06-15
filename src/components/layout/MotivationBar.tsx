@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Quote, ChevronDown, ChevronUp } from 'lucide-react';
 import { getDailyQuote } from '@/lib/motivation/quotes';
 import { useUIStore } from '@/stores/uiStore';
@@ -15,7 +14,6 @@ import { cn } from '@/lib/utils/cn';
  * Collapsible via UI store.
  */
 export function MotivationBar() {
-  const { t } = useTranslation();
   const { language } = useSettingsStore();
   const { isMotivationBarCollapsed, toggleMotivationBar } = useUIStore();
 

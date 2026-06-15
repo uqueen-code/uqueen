@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Circle, Trash2, AlertTriangle, Star, Clock, Cake } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { Priority } from '@/types/enums';
@@ -29,7 +28,6 @@ const PRIORITY_STYLES: Record<string, { border: string; bg: string }> = {
  * Supports priority-based sorting and visual indicators.
  */
 export function TodoWidget({ title, icon, todos, onToggle, onDelete, accentColor, showDate }: TodoWidgetProps) {
-  const { t } = useTranslation();
 
   return (
     <div className="module-card" style={{ '--module-accent': accentColor ?? '#6366f1' } as React.CSSProperties}>
@@ -47,7 +45,7 @@ export function TodoWidget({ title, icon, todos, onToggle, onDelete, accentColor
       </h2>
 
       {todos.length === 0 ? (
-        <EmptyState title={t('dashboard.noTodos')} />
+        <EmptyState title="暂无待办" />
       ) : (
         <ul className="space-y-1.5 max-h-[300px] overflow-y-auto scrollbar-hide">
           {todos.map((todo) => {

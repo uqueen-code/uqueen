@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Plus, X, Calendar, Clock, Repeat, Cake, Star, AlertTriangle,
   ChevronDown,
@@ -29,23 +28,31 @@ interface TodoCreatorProps {
 }
 
 const PRIORITY_OPTIONS = [
-  { value: Priority.NORMAL, label: 'common.normal', color: '#94a3b8', icon: null },
-  { value: Priority.IMPORTANT, label: 'common.important', color: '#f59e0b', icon: Star },
-  { value: Priority.URGENT, label: 'common.urgent', color: '#ef4444', icon: AlertTriangle },
+  { value: Priority.NORMAL, label: '普通', color: '#94a3b8', icon: null },
+  { value: Priority.IMPORTANT, label: '重要', color: '#f59e0b', icon: Star },
+  { value: Priority.URGENT, label: '紧急', color: '#ef4444', icon: AlertTriangle },
 ] as const;
 
 const RECUR_OPTIONS = [
   { value: null, label: '不循环' },
-  { value: RecurType.DAILY, label: 'common.daily' },
-  { value: RecurType.WEEKLY, label: 'common.weekly' },
-  { value: RecurType.MONTHLY, label: 'common.monthly' },
-  { value: RecurType.YEARLY, label: 'common.yearly' },
-  { value: RecurType.LUNAR_YEARLY, label: 'common.lunarYearly' },
+  { value: RecurType.DAILY, label: '每日' },
+  { value: RecurType.WEEKLY, label: '每周' },
+  { value: RecurType.MONTHLY, label: '每月' },
+  { value: RecurType.YEARLY, label: '每年' },
+  { value: RecurType.LUNAR_YEARLY, label: '农历每年' },
 ] as const;
 
 const CATEGORY_OPTIONS = [
   { value: '', label: '无分类' },
-  ...Object.values(ModuleCategory).map((cat) => ({ value: cat, label: `nav.${cat}` })),
+  { value: ModuleCategory.FITNESS, label: '健身' },
+  { value: ModuleCategory.READING, label: '阅读' },
+  { value: ModuleCategory.LEARNING, label: '学习' },
+  { value: ModuleCategory.SPEAKING, label: '口语' },
+  { value: ModuleCategory.HEALTH, label: '健康' },
+  { value: ModuleCategory.PSYCHOLOGY, label: '心理' },
+  { value: ModuleCategory.TRAVEL, label: '旅行' },
+  { value: ModuleCategory.FINANCE, label: '财务' },
+  { value: ModuleCategory.BUSINESS, label: '商业' },
 ];
 
 /**
@@ -53,7 +60,6 @@ const CATEGORY_OPTIONS = [
  * Supports: priority, recurring, lunar birthday reminders, categories.
  */
 export function TodoCreator({ onSave, onClose }: TodoCreatorProps) {
-  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -135,7 +141,7 @@ export function TodoCreator({ onSave, onClose }: TodoCreatorProps) {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder={t('dashboard.createTodo') + '...'}
+            placeholder="创建待办事项..."
             className="flex-1 bg-transparent border-none outline-none text-sm"
             style={{ color: 'var(--color-text-primary)' }}
             onClick={(e) => e.stopPropagation()}
@@ -152,7 +158,7 @@ export function TodoCreator({ onSave, onClose }: TodoCreatorProps) {
               className="px-3 py-1 rounded-lg text-xs font-medium text-white transition-all"
               style={{ background: '#6366f1' }}
             >
-              {t('common.add')}
+              添加
             </button>
           )}
           <button
@@ -202,7 +208,7 @@ export function TodoCreator({ onSave, onClose }: TodoCreatorProps) {
                   }}
                 >
                   {opt.icon && <opt.icon className="h-3 w-3" />}
-                  {t(opt.label)}
+                  {opt.label}
                 </button>
               ))}
             </div>
@@ -215,7 +221,7 @@ export function TodoCreator({ onSave, onClose }: TodoCreatorProps) {
             >
               {CATEGORY_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
-                  {opt.value ? t(opt.label) : opt.label}
+                  {opt.label}
                 </option>
               ))}
             </select>
@@ -339,7 +345,7 @@ export function TodoCreator({ onSave, onClose }: TodoCreatorProps) {
             className="btn-primary w-full text-sm"
             style={{ '--color-accent': '#6366f1', '--color-accent-hover': '#4f46e5' } as React.CSSProperties}
           >
-            {isSubmitting ? t('common.loading') : t('dashboard.createTodo')}
+            {isSubmitting ? '创建中...' : '创建待办'}
           </button>
         </div>
       )}
