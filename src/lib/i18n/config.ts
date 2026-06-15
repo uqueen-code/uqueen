@@ -17,7 +17,7 @@ import { Language } from '@/types/enums';
 
 const ZH_CN_RESOURCES = {
   app: {
-    name: '我想活出怎样的人生',
+    name: '向上思考',
     shortName: '成长管理',
     tagline: '记录成长，不负时光',
   },
