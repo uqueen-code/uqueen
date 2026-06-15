@@ -1,13 +1,11 @@
 {
-  "name": "Growth Manager - 成长管家",
-  "short_name": "成长管家",
-  "description": "全能个人成长管理平台",
+  "name": "Growth Manager",
+  "short_name": "Growth",
+  "description": "你的全能成长管理助手",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#6366f1",
-  "orientation": "portrait",
-  "scope": "/",
+  "theme_color": "#4f46e5",
   "icons": [
     {
       "src": "/assets/icon-192x192.png",
@@ -21,7 +19,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["productivity", "lifestyle", "health"],
-  "lang": "zh-CN"
+  ]
 }

@@ -1,32 +1,32 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { AppProviders } from '@/components/layout/Providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '全能个人成长管理平台',
+  title: '成长管家',
   description: '掌控人生，成就更好的自己 — All-in-One Personal Growth Management Platform',
   keywords: ['个人成长', '目标管理', '健身', '阅读', '学习', '健康', '理财', '口语'],
   authors: [{ name: 'Personal Growth Platform' }],
   manifest: '/manifest.json',
-  themeColor: '#6366f1',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: '成长管家',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#4f46e5',
 };
 
 /**
  * Root HTML layout.
- * - Sets data-theme attribute for theme system
- * - AppProviders wraps the entire app for auth, react-query
- * - PWA manifest and meta tags included
+ * - PWA manifest and meta tags force-included in <head>
+ * - Service Worker registered via inline script
  */
 export default function RootLayout({
   children,
@@ -34,16 +34,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN" data-theme="light" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
-        {/* PWA 支持 */}
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#6366f1" />
+        {/* === PWA 强制性标签 === */}
+        <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
+        <meta name="theme-color" content="#4f46e5" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="成长管家" />
         <link rel="apple-touch-icon" href="/assets/icon-192x192.png" />
 
-        {/* Preconnect to Supabase for faster API calls */}
+        {/* Preconnect */}
         <link rel="preconnect" href="https://api.supabase.com" />
-        {/* Google Fonts: Inter + Noto Sans (CJK) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -51,18 +54,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
 
-        {/* Service Worker 注册 */}
+        {/* Service Worker */}
         <script dangerouslySetInnerHTML={{
           __html: `
             if ('serviceWorker' in navigator) {
               window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').then(
-                  function(registration) {
-                    console.log('Service Worker 注册成功:', registration.scope);
-                  },
-                  function(err) {
-                    console.log('Service Worker 注册失败:', err);
-                  }
+                navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(
+                  function(reg) { console.log('SW registered:', reg.scope); },
+                  function(err) { console.log('SW failed:', err); }
                 );
               });
             }

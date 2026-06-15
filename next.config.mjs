@@ -2,51 +2,36 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // Allow images from Supabase and other sources
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**' },
     ],
   },
 
-  // PWA 支持
+  // PWA headers — 强制返回正确的 Content-Type
   async headers() {
     return [
       {
         source: '/manifest.json',
         headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/manifest+json',
-          },
+          { key: 'Content-Type', value: 'application/manifest+json' },
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
         ],
       },
       {
         source: '/sw.js',
         headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/javascript',
-          },
-          {
-            key: 'Service-Worker-Allowed',
-            value: '/',
-          },
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
         ],
       },
     ];
   },
 
-  // Vercel serverless function config
-  // API routes auto-deploy as serverless functions
-  experimental: {
-    // No experimental flags needed for basic deployment
-  },
+  // 禁用 standalone 输出，确保 public/ 静态文件可被 Netlify 正确部署
+  // output: 'standalone',
 
-  // Output mode: 'standalone' is best for Vercel
-  output: 'standalone',
-
-  // Disable x-powered-by header for security
   poweredByHeader: false,
 };
 
