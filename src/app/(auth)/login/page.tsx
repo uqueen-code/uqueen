@@ -352,7 +352,7 @@ export default function LoginPage() {
 
       {/* Footer */}
       <p className="text-center text-xs mt-6" style={{ color: 'var(--color-text-muted)' }}>
-        &copy; {new Date().getFullYear()} 成长管家
+        &copy; {new Date().getFullYear()} 向上思考
       </p>
     </div>
   );

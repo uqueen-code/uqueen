@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: '成长管家',
+    title: '向上思考',
   },
 };
 
@@ -42,7 +42,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="成长管家" />
+        <meta name="apple-mobile-web-app-title" content="向上思考" />
         <link rel="apple-touch-icon" href="/assets/icon-192x192.png" />
 
         {/* Preconnect */}

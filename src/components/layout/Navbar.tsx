@@ -107,7 +107,7 @@ export function Navbar() {
               >
                 G
               </div>
-              <span className="hidden sm:inline">成长管家</span>
+              <span className="hidden sm:inline">向上思考</span>
             </Link>
           </div>
 
