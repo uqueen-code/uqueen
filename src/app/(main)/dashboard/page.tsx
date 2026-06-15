@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   CheckCircle2,
   Clock,
@@ -18,7 +18,7 @@ import { GoalWidget } from '@/components/dashboard/GoalWidget';
 import { HabitTracker } from '@/components/dashboard/HabitTracker';
 import { HeatmapCalendar } from '@/components/dashboard/HeatmapCalendar';
 import { GoalType, Priority, RecurType, type HabitCategory } from '@/types/enums';
-import type { ActivityEntry } from '@/types/models';
+import type { ActivityEntry, HabitLog } from '@/types/models';
 
 /**
  * Dashboard Page — Phase 2 Full Implementation.
@@ -46,6 +46,7 @@ export default function DashboardPage() {
     toggleHabit,
     completedCount,
     totalCount,
+    getHabitsInRange,
   } = useHabits();
 
   const {
@@ -63,22 +64,37 @@ export default function DashboardPage() {
     isLoading: cdLoading,
   } = useCountdowns();
 
+  // Historical habit logs for heatmap (loads last 365 days from IndexedDB)
+  const [historicalHabits, setHistoricalHabits] = useState<HabitLog[]>([]);
+
+  useEffect(() => {
+    const loadHistoricalHabits = async () => {
+      try {
+        const endDate = new Date().toISOString().split('T')[0]!;
+        const startDate = new Date(Date.now() - 365 * 86400000).toISOString().split('T')[0]!;
+        const logs = await getHabitsInRange(startDate, endDate);
+        setHistoricalHabits(logs);
+      } catch (err) {
+        console.error('Failed to load historical habits for heatmap:', err);
+      }
+    };
+    loadHistoricalHabits();
+  }, [habits, getHabitsInRange]); // reload when today's habits change
+
   // Build activity data for heatmap
   const activityData = useMemo<ActivityEntry[]>(() => {
     const entries: ActivityEntry[] = [];
-    // Completed todos by date
+    // Completed todos by date (all time)
     todos.filter(t => t.isCompleted && t.completedAt).forEach(t => {
       const date = t.completedAt!.split('T')[0]!;
       entries.push({ date, activityType: 'todo', detail: t.category ?? 'general' });
     });
-    // Habit logs from loaded data — we'll use the habits state for today
-    Object.entries(habits).forEach(([cat, completed]) => {
-      if (completed) {
-        entries.push({ date: new Date().toISOString().split('T')[0]!, activityType: 'habit', detail: cat });
-      }
+    // Historical habit logs from IndexedDB (includes today if saved)
+    historicalHabits.forEach(log => {
+      entries.push({ date: log.date, activityType: 'habit', detail: log.category });
     });
     return entries;
-  }, [todos, habits]);
+  }, [todos, historicalHabits]);
 
   // Modal state for inline creation
   const [showGoalForm, setShowGoalForm] = useState(false);

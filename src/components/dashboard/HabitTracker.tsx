@@ -100,7 +100,7 @@ export function HabitTracker({ habits, onToggle, completedCount, totalCount }: H
                   color: isChecked ? color : 'var(--color-text-secondary)',
                 }}
               >
-                {category === 'fitness' ? '健身' : category === 'reading' ? '阅读' : category === 'learning' ? '学习' : category === 'speaking' ? '口语' : category === 'health' ? '健康' : category === 'psychology' ? '心理' : category}
+                {category === 'fitness' ? '健身' : category === 'reading' ? '阅读' : category === 'learning' ? '学习' : category === 'speaking' ? '口语' : category === 'health' ? '健康' : category === 'psychology' ? '心理' : category === 'travel' ? '旅行' : category === 'finance' ? '财务' : category === 'business' ? '商业' : category}
               </span>
             </button>
           );

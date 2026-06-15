@@ -45,12 +45,13 @@ export function HeatmapCalendar({
   const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
   const startPadding = getDay(monthStart); // 0 = Sunday
 
-  // Build activity lookup: date -> set of modules
+  // Build activity lookup: date -> set of modules (using detail = module category)
   const activityMap = useMemo(() => {
     const map: Record<string, Set<string>> = {};
     activities.forEach((a) => {
       if (!map[a.date]) map[a.date] = new Set();
-      map[a.date]!.add(a.activityType);
+      // Use detail (module category) instead of activityType for meaningful labels
+      map[a.date]!.add(a.detail || a.activityType);
     });
     return map;
   }, [activities]);
@@ -73,12 +74,24 @@ export function HeatmapCalendar({
     return getModuleColor(first === 'todo' ? 'dashboard' : first);
   }, [activityMap]);
 
-  // Module filter buttons
+  // Module filter buttons — Chinese labels
+  const MODULE_LABELS: Record<string, string> = {
+    fitness: '健身',
+    reading: '阅读',
+    learning: '学习',
+    health: '健康',
+    speaking: '口语',
+    psychology: '心理',
+    travel: '旅行',
+    finance: '财务',
+    business: '商业',
+  };
+
   const moduleFilters = [
     { key: undefined, label: '全部', color: '#6366f1' },
     ...Object.values(ModuleCategory).map((cat) => ({
       key: cat as string,
-      label: cat,
+      label: MODULE_LABELS[cat] ?? cat,
       color: getModuleColor(cat),
     })),
   ];
@@ -214,7 +227,7 @@ export function HeatmapCalendar({
                     color: 'var(--color-surface)',
                   }}
                 >
-                  {[...dayModules].join(', ')}
+                  {[...dayModules].map(m => MODULE_LABELS[m] ?? m).join(', ')}
                 </div>
               )}
             </div>

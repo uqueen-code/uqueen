@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { ThemeMode, Language } from '@/types/enums';
 import { applyTheme, getSavedTheme } from '@/lib/themes/config';
-import { changeLanguage, getCurrentLanguage } from '@/lib/i18n/config';
+// i18n 已彻底移除 — 全站硬编码中文，不再依赖任何翻译框架
 
 interface FontSizeConfig {
   global: 'small' | 'medium' | 'large';
@@ -51,8 +51,8 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
 
   language: Language.ZH_CN,
   setLanguage: (language) => {
-    changeLanguage(language);
-    set({ language });
+    // 语言切换已禁用 — 强制锁定中文
+    set({ language: Language.ZH_CN });
   },
 
   fontSize: {
@@ -91,9 +91,8 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     applyTheme(savedTheme);
     set({ theme: savedTheme });
 
-    // Restore language
-    const savedLanguage = getCurrentLanguage();
-    set({ language: savedLanguage });
+    // Language locked to zh-CN
+    set({ language: Language.ZH_CN });
 
     // Restore font size
     try {
