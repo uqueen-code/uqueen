@@ -33,7 +33,7 @@ export function MotivationBar() {
             style={{ color: 'var(--color-text-muted)' }}
           >
             <Quote className="h-3 w-3" />
-            <span>{t('motivation.title')}</span>
+            <span>今日箴言</span>
             <ChevronDown className="h-3 w-3 ml-auto" />
           </button>
         </div>

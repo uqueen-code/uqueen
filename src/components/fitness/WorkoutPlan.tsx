@@ -39,7 +39,7 @@ export function WorkoutPlan({ plan, onAccept }: WorkoutPlanProps) {
           <button onClick={handleAccept} disabled={isAccepting}
             className="btn-primary text-xs px-3 py-1.5"
             style={{ '--color-accent': '#3b82f6', '--color-accent-hover': '#2563eb' } as React.CSSProperties}>
-            {isAccepting ? t('common.loading') : t('fitness.acceptPlan')}
+            {isAccepting ? '加载中...' : '接受方案'}
           </button>
         )}
       </div>

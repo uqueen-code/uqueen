@@ -26,7 +26,7 @@ export function OfflineBanner() {
           style={{ background: '#f59e0b', color: '#fff' }}
         >
           <WifiOff className="h-3 w-3" />
-          {offlineMode ? t('common.offline') : t('common.offline') + ' — 数据将保存到本地'}
+          {offlineMode ? '离线模式 — 数据将保存到本地' : '离线模式 — 数据将保存到本地'}
         </div>
       )}
 
@@ -37,7 +37,7 @@ export function OfflineBanner() {
           style={{ background: '#3b82f6', color: '#fff' }}
         >
           <RefreshCw className="h-3 w-3 animate-spin" />
-          {t('common.syncing')} {pendingCount > 0 && `(${pendingCount})`}
+          同步中 {pendingCount > 0 && `(${pendingCount})`}
         </div>
       )}
 

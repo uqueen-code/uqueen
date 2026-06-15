@@ -133,7 +133,7 @@ export function HeatmapCalendar({
               color: selectedModule === f.key ? '#fff' : 'var(--color-text-secondary)',
             }}
           >
-            {f.key ? t(`nav.${f.key}`) : f.label}
+            {f.label}
           </button>
         ))}
       </div>
@@ -214,7 +214,7 @@ export function HeatmapCalendar({
                     color: 'var(--color-surface)',
                   }}
                 >
-                  {[...dayModules].map((m) => t(`nav.${m === 'todo' ? 'dashboard' : m}`)).join(', ')}
+                  {[...dayModules].join(', ')}
                 </div>
               )}
             </div>

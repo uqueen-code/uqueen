@@ -192,7 +192,7 @@ export function AudioPlayer({ audioUrl, label, onLocalFile }: AudioPlayerProps) 
         <button onClick={() => fileInputRef.current?.click()}
           className="p-2 rounded-lg transition-colors ml-auto"
           style={{ color: 'var(--color-text-muted)' }}
-          title={t('music.upload')}>
+          title="上传">
           <Upload className="h-4 w-4" />
         </button>
       </div>

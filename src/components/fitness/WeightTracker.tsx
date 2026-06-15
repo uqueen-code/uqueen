@@ -125,7 +125,7 @@ export function WeightTracker({ fitnessData, onSave, hasPlan }: WeightTrackerPro
         <button onClick={handleSave} disabled={isSaving}
           className="btn-primary w-full text-sm"
           style={{ '--color-accent': '#22c55e', '--color-accent-hover': '#16a34a' } as React.CSSProperties}>
-          {isSaving ? t('common.loading') : (fitnessData ? t('common.save') : '保存并生成方案')}
+          {isSaving ? '加载中...' : (fitnessData ? '保存' : '保存并生成方案')}
         </button>
       </div>
     </div>

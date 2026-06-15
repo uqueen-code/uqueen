@@ -117,7 +117,7 @@ export function MusicPlayer() {
           className="truncate max-w-[100px]"
           style={{ color: 'var(--color-text-secondary)' }}
         >
-          {trackName || t('music.dailyRecommendation')}
+          {trackName || '每日推荐'}
         </span>
       </div>
 
@@ -179,7 +179,7 @@ export function MusicPlayer() {
           onClick={() => fileInputRef.current?.click()}
           className="p-1 rounded-full transition-colors"
           style={{ color: 'var(--color-text-muted)' }}
-          title={t('music.upload')}
+          title="上传音乐"
         >
           <Upload className="h-3 w-3" />
         </button>
@@ -189,7 +189,7 @@ export function MusicPlayer() {
           onClick={openExternalPlayer}
           className="p-1 rounded-full transition-colors"
           style={{ color: 'var(--color-text-muted)' }}
-          title={t('music.openPlayer')}
+          title="打开播放器"
         >
           <ExternalLink className="h-3 w-3" />
         </button>

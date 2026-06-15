@@ -45,7 +45,7 @@ export function CountdownWidget({ countdowns, onDelete, onCreateClick }: Countdo
 
       {countdowns.length === 0 ? (
         <EmptyState
-          title=暂无倒计时
+          title="暂无倒计时"
           description="添加重要日程的倒计时提醒"
         />
       ) : (

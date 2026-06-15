@@ -44,7 +44,7 @@ interface ShadowingProps {
 export function ShadowingModule({ material, completed, onToggle }: ShadowingProps) {
 
   return (
-    <ModuleWrapper title={t('speaking.shadowing')} icon={<Headphones className="h-4 w-4" style={{ color: '#f59e0b' }} />} color="#f59e0b" completed={completed} onToggle={onToggle}>
+    <ModuleWrapper title="影子跟读" icon={<Headphones className="h-4 w-4" style={{ color: '#f59e0b' }} />} color="#f59e0b" completed={completed} onToggle={onToggle}>
       <div className="space-y-3">
         {material?.title && (
           <div className="flex items-center gap-2">
@@ -59,7 +59,7 @@ export function ShadowingModule({ material, completed, onToggle }: ShadowingProp
 
         {material?.subtitleText && (
           <div className="p-3 rounded-lg text-sm leading-relaxed" style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
-            <p className="text-xs font-medium mb-1.5" style={{ color: 'var(--color-text-muted)' }}>{t('speaking.subtitle')}</p>
+            <p className="text-xs font-medium mb-1.5" style={{ color: 'var(--color-text-muted)' }}>字幕练习</p>
             <p style={{ color: 'var(--color-text-primary)', lineHeight: 1.8 }}>{material.subtitleText}</p>
           </div>
         )}
@@ -83,7 +83,7 @@ interface PictureDescProps {
 export function PictureDescription({ material, completed, onToggle }: PictureDescProps) {
 
   return (
-    <ModuleWrapper title={t('speaking.pictureDescription')} icon={<Image className="h-4 w-4" style={{ color: '#06b6d4' }} />} color="#06b6d4" completed={completed} onToggle={onToggle}>
+    <ModuleWrapper title="图片描述" icon={<Image className="h-4 w-4" style={{ color: '#06b6d4' }} />} color="#06b6d4" completed={completed} onToggle={onToggle}>
       <div className="space-y-3">
         <div
           className="h-40 rounded-lg flex items-center justify-center"
@@ -117,7 +117,7 @@ interface ConnectedSpeechProps {
 export function ConnectedSpeech({ material, completed, onToggle }: ConnectedSpeechProps) {
 
   return (
-    <ModuleWrapper title={t('speaking.connectedSpeech')} icon={<Link2 className="h-4 w-4" style={{ color: '#8b5cf6' }} />} color="#8b5cf6" completed={completed} onToggle={onToggle}>
+    <ModuleWrapper title="连读训练" icon={<Link2 className="h-4 w-4" style={{ color: '#8b5cf6' }} />} color="#8b5cf6" completed={completed} onToggle={onToggle}>
       <div className="space-y-3">
         <div className="p-4 rounded-lg text-center" style={{ background: 'var(--color-surface)' }}>
           <p className="text-sm font-medium mb-2" style={{ color: '#7c3aed' }}>今日练习</p>
@@ -144,7 +144,7 @@ interface TopicReadingProps {
 export function TopicReading({ material, completed, onToggle }: TopicReadingProps) {
 
   return (
-    <ModuleWrapper title={t('speaking.topicReading')} icon={<BookText className="h-4 w-4" style={{ color: '#ec4899' }} />} color="#ec4899" completed={completed} onToggle={onToggle}>
+    <ModuleWrapper title="话题朗读" icon={<BookText className="h-4 w-4" style={{ color: '#ec4899' }} />} color="#ec4899" completed={completed} onToggle={onToggle}>
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: '#ec489918', color: '#db2777' }}>

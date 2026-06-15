@@ -24,7 +24,7 @@ export function DailyRecommendation({ book }: DailyRecommendationProps) {
       <div className="module-card" style={{ '--module-accent': '#a0724a' } as React.CSSProperties}>
         <h2 className="section-title" style={{ '--module-accent': '#a0724a' } as React.CSSProperties}>
           <Sparkles className="h-5 w-5" style={{ color: '#a0724a' }} />
-          {t('reading.dailyRecommendation')}
+          每日推荐
         </h2>
         <div className="skeleton h-40 rounded-xl" />
       </div>
@@ -37,7 +37,7 @@ export function DailyRecommendation({ book }: DailyRecommendationProps) {
     <div className="module-card" style={{ '--module-accent': '#a0724a' } as React.CSSProperties}>
       <h2 className="section-title" style={{ '--module-accent': '#a0724a' } as React.CSSProperties}>
         <Sparkles className="h-5 w-5" style={{ color: '#a0724a' }} />
-        {t('reading.dailyRecommendation')}
+        每日推荐
       </h2>
 
       <div className="flex gap-4">

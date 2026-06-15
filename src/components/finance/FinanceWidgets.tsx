@@ -134,8 +134,8 @@ export function PortfolioManager({ items, stats, chartData, onAdd, onUpdatePrice
       {/* Stats cards */}
       <div className="grid grid-cols-3 gap-3 mb-4">
         {[
-          { label: t('finance.totalValue'), value: `¥${stats.totalValue.toLocaleString('zh-CN', { maximumFractionDigits: 2 })}`, color: '#22c55e' },
-          { label: t('finance.profitLoss'), value: `${stats.totalPL >= 0 ? '+' : ''}¥${stats.totalPL.toLocaleString('zh-CN', { maximumFractionDigits: 2 })}`, color: stats.totalPL >= 0 ? '#22c55e' : '#ef4444' },
+          { label: '总市值', value: `¥${stats.totalValue.toLocaleString('zh-CN', { maximumFractionDigits: 2 })}`, color: '#22c55e' },
+          { label: '盈亏', value: `${stats.totalPL >= 0 ? '+' : ''}¥${stats.totalPL.toLocaleString('zh-CN', { maximumFractionDigits: 2 })}`, color: stats.totalPL >= 0 ? '#22c55e' : '#ef4444' },
           { label: '持仓数', value: `${stats.count}`, color: '#3b82f6' },
         ].map(s => (
           <div key={s.label} className="p-3 rounded-xl text-center" style={{ background: 'var(--color-surface-alt)' }}>

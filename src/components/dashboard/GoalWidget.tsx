@@ -55,7 +55,7 @@ export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }:
 
       {goals.length === 0 ? (
         <EmptyState
-          title=暂无目标
+          title="暂无目标"
           description="设定2026年度目标，开始行动"
         />
       ) : (
@@ -75,7 +75,7 @@ export function GoalWidget({ goals, onUpdateProgress, onDelete, onCreateClick }:
                       </span>
                       {goal.daysRemaining !== undefined && goal.daysRemaining > 0 && (
                         <span className="text-[10px] flex-shrink-0" style={{ color: 'var(--color-text-muted)' }}>
-                          goal.daysRemaining}天
+                          {goal.daysRemaining}天
                         </span>
                       )}
                     </div>

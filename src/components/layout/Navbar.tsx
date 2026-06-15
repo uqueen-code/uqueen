@@ -25,6 +25,7 @@ import {
   User,
   Wifi,
   WifiOff,
+  Languages,
 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useSettingsStore } from '@/stores/settingsStore';
@@ -39,6 +40,7 @@ import { MODULE_COLORS, getModuleColor } from '@/lib/themes/module-colors';
  */
 const NAV_TABS = [
   { path: '/dashboard', label: '控制台', icon: LayoutDashboard, module: 'dashboard' },
+  { path: '/vocab', label: '雅思词汇', icon: Languages, module: 'vocab' },
   { path: '/fitness', label: '健身', icon: Dumbbell, module: 'fitness' },
   { path: '/reading', label: '阅读', icon: BookOpen, module: 'reading' },
   { path: '/learning', label: '学习', icon: GraduationCap, module: 'learning' },

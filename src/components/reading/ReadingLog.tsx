@@ -47,7 +47,7 @@ export function ReadingLog({ dailyBook, todayLogs, didReadToday, onLog }: Readin
       <div className="flex items-center justify-between mb-3">
         <h2 className="section-title mb-0" style={{ '--module-accent': '#7d5535' } as React.CSSProperties}>
           <BookMarked className="h-5 w-5" style={{ color: '#7d5535' }} />
-          {t('reading.readingLog')}
+          阅读日志
         </h2>
         {didReadToday && (
           <span className="text-xs px-2 py-1 rounded-full flex items-center gap-1" style={{ background: '#22c55e20', color: '#22c55e' }}>
@@ -62,7 +62,7 @@ export function ReadingLog({ dailyBook, todayLogs, didReadToday, onLog }: Readin
           <div className="flex-1 flex items-center gap-2 p-2 rounded-lg" style={{ background: 'var(--color-surface-alt)' }}>
             <BookOpen className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} />
             <input type="text" value={bookTitle} onChange={e => setBookTitle(e.target.value)}
-              placeholder={t('reading.bookTitle')} className="bg-transparent text-sm w-full outline-none" style={{ color: 'var(--color-text-primary)' }} />
+              placeholder="书名" className="bg-transparent text-sm w-full outline-none" style={{ color: 'var(--color-text-primary)' }} />
           </div>
           {dailyBook && bookTitle !== dailyBook.title && (
             <button onClick={useDailyBook}
@@ -76,19 +76,19 @@ export function ReadingLog({ dailyBook, todayLogs, didReadToday, onLog }: Readin
         {/* Chapter + Pages */}
         <div className="flex gap-2">
           <input type="text" value={chapter} onChange={e => setChapter(e.target.value)}
-            placeholder={t('reading.chapter')} className="input-field flex-1 text-sm" />
+            placeholder="章节" className="input-field flex-1 text-sm" />
           <input type="number" value={pagesRead} onChange={e => setPagesRead(e.target.value)}
-            placeholder={t('reading.pagesRead')} className="input-field w-24 text-sm" />
+            placeholder="页数" className="input-field w-24 text-sm" />
         </div>
 
         {/* Notes */}
         <textarea value={notes} onChange={e => setNotes(e.target.value)}
-          placeholder={t('reading.notes')} className="input-field min-h-[60px] text-sm" />
+          placeholder="笔记" className="input-field min-h-[60px] text-sm" />
 
         <button onClick={handleSubmit} disabled={isSubmitting || !bookTitle.trim()}
           className="btn-primary w-full text-sm"
           style={{ '--color-accent': '#a0724a', '--color-accent-hover': '#7d5535' } as React.CSSProperties}>
-          {t('common.submit')}
+          提交
         </button>
       </div>
 

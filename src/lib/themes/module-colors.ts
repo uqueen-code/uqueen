@@ -63,6 +63,11 @@ export const MODULE_COLORS: Record<string, ModuleColorConfig> = {
     DEFAULT: '#6366f1',
     dark: '#4f46e5',
   },
+  vocab: {
+    light: '#818cf8',
+    DEFAULT: '#6366f1',
+    dark: '#4f46e5',
+  },
 };
 
 /**
