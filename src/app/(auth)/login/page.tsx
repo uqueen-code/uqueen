@@ -127,10 +127,10 @@ export default function LoginPage() {
           <Sparkles className="h-8 w-8 text-white" />
         </div>
         <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
-          全能个人成长管理平台
+          我想活出怎样的人生
         </h1>
         <p className="text-sm mt-2" style={{ color: 'var(--color-text-muted)' }}>
-          掌控人生，成就更好的自己
+          记录成长，不负时光
         </p>
       </div>
 

@@ -1,7 +1,7 @@
 {
-  "name": "Growth Manager",
-  "short_name": "Growth",
-  "description": "你的全能成长管理助手",
+  "name": "我想活出怎样的人生",
+  "short_name": "活出人生",
+  "description": "记录成长，不负时光",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

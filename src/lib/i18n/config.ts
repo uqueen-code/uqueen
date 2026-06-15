@@ -17,9 +17,9 @@ import { Language } from '@/types/enums';
 
 const ZH_CN_RESOURCES = {
   app: {
-    name: '全能个人成长管理平台',
+    name: '我想活出怎样的人生',
     shortName: '成长管理',
-    tagline: '掌控人生，成就更好的自己',
+    tagline: '记录成长，不负时光',
   },
   nav: {
     dashboard: '仪表盘',

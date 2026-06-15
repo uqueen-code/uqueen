@@ -7,7 +7,7 @@ export const LANGS: LangKey[] = ['zh','en'];
 interface Dict {[key:string]:string}
 
 const zh: Dict = {
-  'app.name':'全能个人成长管理平台','app.short':'成长管理',
+  'app.name':'我想活出怎样的人生','app.short':'成长管理',
   'nav.dashboard':'仪表盘','nav.fitness':'健身','nav.reading':'阅读','nav.learning':'学习','nav.speaking':'口语','nav.health':'健康','nav.psychology':'心理','nav.travel':'旅行','nav.finance':'理财','nav.business':'商业',
   'auth.login':'登录','auth.logout':'退出登录',
   'common.save':'保存','common.cancel':'取消','common.delete':'删除','common.edit':'编辑','common.loading':'加载中...','common.close':'关闭','common.confirm':'确认','common.online':'在线','common.offline':'离线',

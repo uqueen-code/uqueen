@@ -3,10 +3,10 @@ import { AppProviders } from '@/components/layout/Providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '成长管家',
-  description: '掌控人生，成就更好的自己 — All-in-One Personal Growth Management Platform',
+  title: '我想活出怎样的人生',
+  description: '我想活出怎样的人生 — 记录成长，不负时光',
   keywords: ['个人成长', '目标管理', '健身', '阅读', '学习', '健康', '理财', '口语'],
-  authors: [{ name: 'Personal Growth Platform' }],
+  authors: [{ name: '我想活出怎样的人生' }],
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
