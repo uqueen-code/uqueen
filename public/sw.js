@@ -1,11 +1,11 @@
 // Service Worker for Growth Manager PWA
-// 使用 Workbox 策略提供离线支持
-
 const CACHE_NAME = 'growth-manager-v1';
 const STATIC_CACHE = [
   '/',
   '/dashboard',
   '/manifest.json',
+  '/assets/icon-192x192.png',
+  '/assets/icon-512x512.png',
 ];
 
 // Install - cache static assets
@@ -14,7 +14,9 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[Service Worker] Caching static assets');
-      return cache.addAll(STATIC_CACHE);
+      return cache.addAll(STATIC_CACHE).catch((err) => {
+        console.log('[Service Worker] Cache failed:', err);
+      });
     })
   );
   self.skipWaiting();
@@ -49,6 +51,11 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
+        // Only cache successful responses
+        if (!response || response.status !== 200 || response.type === 'error') {
+          return response;
+        }
+
         // Clone the response before caching
         const responseToCache = response.clone();
         caches.open(CACHE_NAME).then((cache) => {
@@ -66,7 +73,6 @@ self.addEventListener('fetch', (event) => {
           if (event.request.mode === 'navigate') {
             return caches.match('/dashboard');
           }
-          return new Response('Offline', { status: 503 });
         });
       })
   );

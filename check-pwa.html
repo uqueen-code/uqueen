@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA 配置检查</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .check { color: green; }
+    .error { color: red; }
+    pre {
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 PWA 配置检查工具</h1>
+  
+  <div class="section" id="manifest-check">
+    <h2>1. Manifest 检查</h2>
+    <div id="manifest-result">检查中...</div>
+  </div>
+
+  <div class="section" id="sw-check">
+    <h2>2. Service Worker 检查</h2>
+    <div id="sw-result">检查中...</div>
+  </div>
+
+  <div class="section" id="icons-check">
+    <h2>3. 图标检查</h2>
+    <div id="icons-result">检查中...</div>
+  </div>
+
+  <div class="section" id="installable-check">
+    <h2>4. 可安装性检查</h2>
+    <div id="installable-result">检查中...</div>
+  </div>
+
+  <script>
+    // 1. 检查 manifest
+    fetch('/manifest.json')
+      .then(r => r.json())
+      .then(manifest => {
+        let html = '<div class="check">✅ manifest.json 加载成功</div>';
+        html += '<pre>' + JSON.stringify(manifest, null, 2) + '</pre>';
+        
+        if (manifest.display !== 'standalone') {
+          html += '<div class="error">❌ display 不是 standalone</div>';
+        } else {
+          html += '<div class="check">✅ display: standalone</div>';
+        }
+        
+        if (!manifest.icons || manifest.icons.length < 2) {
+          html += '<div class="error">❌ 图标配置不完整</div>';
+        } else {
+          html += '<div class="check">✅ 图标配置: ' + manifest.icons.length + ' 个</div>';
+        }
+
+        if (manifest.start_url !== '/') {
+          html += '<div class="error">⚠️ start_url 建议设为 "/" (当前: ' + manifest.start_url + ')</div>';
+        }
+        
+        document.getElementById('manifest-result').innerHTML = html;
+      })
+      .catch(err => {
+        document.getElementById('manifest-result').innerHTML = 
+          '<div class="error">❌ manifest.json 加载失败: ' + err + '</div>';
+      });
+
+    // 2. 检查 Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (reg) {
+          document.getElementById('sw-result').innerHTML = 
+            '<div class="check">✅ Service Worker 已注册</div>' +
+            '<div>Scope: ' + reg.scope + '</div>' +
+            '<div>State: ' + (reg.active ? reg.active.state : 'not active') + '</div>';
+        } else {
+          document.getElementById('sw-result').innerHTML = 
+            '<div class="error">❌ Service Worker 未注册</div>';
+        }
+      });
+    } else {
+      document.getElementById('sw-result').innerHTML = 
+        '<div class="error">❌ 浏览器不支持 Service Worker</div>';
+    }
+
+    // 3. 检查图标
+    Promise.all([
+      fetch('/assets/icon-192x192.png').then(r => r.ok),
+      fetch('/assets/icon-512x512.png').then(r => r.ok)
+    ]).then(([icon192, icon512]) => {
+      let html = '';
+      if (icon192) {
+        html += '<div class="check">✅ icon-192x192.png 存在</div>';
+      } else {
+        html += '<div class="error">❌ icon-192x192.png 不存在</div>';
+      }
+      if (icon512) {
+        html += '<div class="check">✅ icon-512x512.png 存在</div>';
+      } else {
+        html += '<div class="error">❌ icon-512x512.png 不存在</div>';
+      }
+      document.getElementById('icons-result').innerHTML = html;
+    });
+
+    // 4. 检查可安装性
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installable-result').innerHTML = 
+        '<div class="check">✅ PWA 可以安装！</div>' +
+        '<button onclick="installApp()" style="padding:10px 20px; background:#6366f1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">立即安装</button>';
+    });
+
+    window.installApp = async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        document.getElementById('installable-result').innerHTML += 
+          '<div>' + (outcome === 'accepted' ? '✅ 用户接受安装' : '❌ 用户取消安装') + '</div>';
+        deferredPrompt = null;
+      }
+    };
+
+    setTimeout(() => {
+      if (!deferredPrompt) {
+        document.getElementById('installable-result').innerHTML = 
+          '<div class="error">⚠️ 未检测到安装提示</div>' +
+          '<div>可能原因：</div>' +
+          '<ul>' +
+          '<li>已经安装过</li>' +
+          '<li>PWA 配置有误</li>' +
+          '<li>需要 HTTPS</li>' +
+          '<li>需要满足最小 PWA 要求</li>' +
+          '</ul>';
+      }
+    }, 2000);
+  </script>
+</body>
+</html>
