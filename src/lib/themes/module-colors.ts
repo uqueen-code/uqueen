@@ -68,6 +68,12 @@ export const MODULE_COLORS: Record<string, ModuleColorConfig> = {
     DEFAULT: '#6366f1',
     dark: '#4f46e5',
   },
+  sudoku: {
+    light: '#fb923c',
+    DEFAULT: '#f97316',
+    dark: '#ea580c',
+    accent: '#8b5cf6',
+  },
 };
 
 /**
@@ -138,6 +144,7 @@ export const MODULE_DISPLAY_NAMES: Record<string, string> = {
   [ModuleCategory.FINANCE]: '理财',
   [ModuleCategory.BUSINESS]: '商业',
   dashboard: '仪表盘',
+  sudoku: '数独',
 };
 
 /**
@@ -154,4 +161,5 @@ export const MODULE_ICONS: Record<string, string> = {
   [ModuleCategory.FINANCE]: 'landmark',
   [ModuleCategory.BUSINESS]: 'briefcase',
   dashboard: 'layout-dashboard',
+  sudoku: 'puzzle',
 };
